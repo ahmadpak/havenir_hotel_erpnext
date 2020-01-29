@@ -18,7 +18,7 @@ def get_data():
 
                 {
                     "type": "doctype",
-                    "name": "Room type",
+                    "name": "Room Type",
                     "label": _("Room Type"),
                     "description": _("Create new Room Type"),
                     "onboard": 1,
