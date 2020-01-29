@@ -58,7 +58,8 @@
    "unique": 1
   }
  ],
- "modified": "2020-01-29 13:13:54.346231",
+ "icon": "calender",
+ "modified": "2020-01-29 13:31:38.978998",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Rooms",
