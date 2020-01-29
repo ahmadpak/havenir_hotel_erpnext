@@ -1,0 +1,18 @@
+include MANIFEST.in
+include requirements.txt
+include *.json
+include *.md
+include *.py
+include *.txt
+recursive-include havenir_hotel_erpnext *.css
+recursive-include havenir_hotel_erpnext *.csv
+recursive-include havenir_hotel_erpnext *.html
+recursive-include havenir_hotel_erpnext *.ico
+recursive-include havenir_hotel_erpnext *.js
+recursive-include havenir_hotel_erpnext *.json
+recursive-include havenir_hotel_erpnext *.md
+recursive-include havenir_hotel_erpnext *.png
+recursive-include havenir_hotel_erpnext *.py
+recursive-include havenir_hotel_erpnext *.svg
+recursive-include havenir_hotel_erpnext *.txt
+recursive-exclude havenir_hotel_erpnext *.pyc

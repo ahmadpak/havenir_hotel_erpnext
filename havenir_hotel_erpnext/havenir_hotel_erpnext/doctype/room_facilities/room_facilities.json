@@ -1,0 +1,38 @@
+{
+ "creation": "2020-01-29 12:52:42.270021",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "facility_type",
+  "description"
+ ],
+ "fields": [
+  {
+   "fieldname": "facility_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Facility Type",
+   "options": "Room Facility Type",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "in_list_view": 1,
+   "label": "Description"
+  }
+ ],
+ "istable": 1,
+ "modified": "2020-01-29 13:11:01.627982",
+ "modified_by": "Administrator",
+ "module": "Havenir Hotel Erpnext",
+ "name": "Room Facilities",
+ "owner": "Administrator",
+ "permissions": [],
+ "quick_entry": 1,
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}
