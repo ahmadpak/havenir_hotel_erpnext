@@ -12,6 +12,7 @@
   "cinc",
   "guest_name",
   "column_break_7",
+  "posting_date",
   "check_in",
   "check_out",
   "room_details_section",
@@ -143,10 +144,17 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Guest Name"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-29 15:59:20.143988",
+ "modified": "2020-01-29 18:08:08.526654",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check In",

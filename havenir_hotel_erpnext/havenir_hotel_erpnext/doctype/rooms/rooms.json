@@ -10,7 +10,7 @@
   "room_status",
   "column_break_4",
   "room_type",
-  "check_in",
+  "check_in_id",
   "section_break_6",
   "facilities"
  ],
@@ -25,7 +25,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Room Status",
-   "options": "Available\nChecked In\nReserved",
+   "options": "Available\nChecked In\nReserved\nRoom Service",
    "read_only": 1
   },
   {
@@ -59,13 +59,13 @@
    "unique": 1
   },
   {
-   "fieldname": "check_in",
+   "fieldname": "check_in_id",
    "fieldtype": "Data",
-   "label": "Check In"
+   "label": "Check In ID"
   }
  ],
  "icon": "calender",
- "modified": "2020-01-29 16:06:08.955261",
+ "modified": "2020-01-29 18:04:12.262493",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Rooms",

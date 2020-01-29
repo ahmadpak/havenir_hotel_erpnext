@@ -10,11 +10,15 @@
   "title",
   "naming_series",
   "room",
+  "column_break_6",
+  "posting_date",
+  "check_in_id",
+  "section_break_8",
   "cinc",
+  "guest_name",
   "column_break_7",
   "check_in",
   "check_out",
-  "guest_name",
   "section_break_12",
   "items",
   "total_amount",
@@ -174,10 +178,31 @@
    "fieldtype": "Currency",
    "label": "Net Total Amount",
    "options": "Currency"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_8",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "check_in_id",
+   "fieldtype": "Link",
+   "label": "Check In ID",
+   "options": "Hotel Check In"
+  },
+  {
+   "default": "Today",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-29 17:40:38.853950",
+ "modified": "2020-01-29 18:07:58.817151",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check Out",
