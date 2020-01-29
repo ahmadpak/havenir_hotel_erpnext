@@ -10,6 +10,7 @@
   "room_status",
   "column_break_4",
   "room_type",
+  "check_in",
   "section_break_6",
   "facilities"
  ],
@@ -56,10 +57,15 @@
    "label": "Room Number",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "check_in",
+   "fieldtype": "Data",
+   "label": "Check In"
   }
  ],
  "icon": "calender",
- "modified": "2020-01-29 13:31:38.978998",
+ "modified": "2020-01-29 16:06:08.955261",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Rooms",
@@ -75,17 +81,6 @@
    "read": 1,
    "report": 1,
    "role": "System Manager",
-   "share": 1,
-   "write": 1
-  },
-  {
-   "create": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "Sales User",
    "share": 1,
    "write": 1
   },
@@ -112,6 +107,15 @@
    "role": "Item Manager",
    "share": 1,
    "write": 1
+  },
+  {
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "Sales User",
+   "share": 1
   }
  ],
  "sort_field": "modified",

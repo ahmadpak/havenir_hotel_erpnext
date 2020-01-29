@@ -18,7 +18,7 @@ def get_data():
 
                 {
                     "type": "doctype",
-                    "name": "Room Type",
+                    "name": "Room type",
                     "label": _("Room Type"),
                     "description": _("Create new Room Type"),
                     "onboard": 1,
@@ -28,7 +28,55 @@ def get_data():
                     "name": "Room Facility Type",
                     "label": _("Room Facilty Type"),
                     "description": _("Create new Room Facility Type"),
-                    "onboard": 1,   
+                    "onboard": 1,
+                },
+            ]
+        },
+        {
+            "label": ("Stay"),
+            "items": [
+                {
+                    "type": "doctype",
+                    "name": "Hotel Check In",
+                    "label": _("Hotel Check In"),
+                    "description": _("Create new Hotel Check In"),
+                    "onboard": 1,
+                },
+
+                {
+                    "type": "doctype",
+                    "name": "Hotel Check Out",
+                    "label": _("Hotel Check Out"),
+                    "description": _("Create new Hotel Check Out"),
+                    "onboard": 1,
+                },
+
+                {
+                    "type": "doctype",
+                    "name": "Hotel Guests",
+                    "label": _("Hotel Guests"),
+                    "description": _("Create new Hotel Guests"),
+                    "onboard": 1,
+                },
+            ]
+        },
+        {
+            "label": ("Room Orders"),
+            "items": [
+                {
+                    "type": "doctype",
+                    "name": "Room Food Order",
+                    "label": _("Room Food Order"),
+                    "description": _("Create new Room Food Order"),
+                    "onboard": 1,
+                },
+
+                {
+                    "type": "doctype",
+                    "name": "Room Laundry Order",
+                    "label": _("Room Laundry Order"),
+                    "description": _("Create new Room Laundry Order"),
+                    "onboard": 1,
                 },
             ]
         },
