@@ -8,7 +8,11 @@
   "qty",
   "rate",
   "amount",
-  "details"
+  "column_break_5",
+  "date",
+  "section_break_7",
+  "details",
+  "check_in_id"
  ],
  "fields": [
   {
@@ -17,6 +21,7 @@
    "in_list_view": 1,
    "label": "Item",
    "options": "Item",
+   "read_only": 1,
    "reqd": 1,
    "search_index": 1
   },
@@ -25,6 +30,8 @@
    "fieldtype": "Float",
    "in_list_view": 1,
    "label": "Qty",
+   "precision": "2",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -33,6 +40,7 @@
    "in_list_view": 1,
    "label": "Rate",
    "options": "Currency",
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -47,11 +55,35 @@
   {
    "fieldname": "details",
    "fieldtype": "Small Text",
-   "label": "Details"
+   "label": "Details",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "date",
+   "fieldtype": "Datetime",
+   "label": "Date",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_7",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "check_in_id",
+   "fieldtype": "Link",
+   "label": "Check In ID",
+   "options": "Hotel Check In",
+   "read_only": 1,
+   "reqd": 1
   }
  ],
  "istable": 1,
- "modified": "2020-01-29 17:19:21.113359",
+ "modified": "2020-01-30 14:07:34.724426",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check Out Item",

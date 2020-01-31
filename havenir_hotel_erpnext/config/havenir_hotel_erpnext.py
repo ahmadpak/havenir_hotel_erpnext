@@ -6,7 +6,7 @@ from frappe import _
 def get_data():
     return[
         {
-            "label": ("Rooms Management"),
+            "label": _("Rooms Management"),
             "items": [
                 {
                     "type": "doctype",
@@ -33,7 +33,7 @@ def get_data():
             ]
         },
         {
-            "label": ("Stay"),
+            "label": _("Guest Stay"),
             "items": [
                 {
                     "type": "doctype",
@@ -61,7 +61,7 @@ def get_data():
             ]
         },
         {
-            "label": ("Room Orders"),
+            "label": _("Room Orders"),
             "items": [
                 {
                     "type": "doctype",

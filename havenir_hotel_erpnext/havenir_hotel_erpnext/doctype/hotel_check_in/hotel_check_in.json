@@ -9,7 +9,7 @@
   "column_break_2",
   "title",
   "naming_series",
-  "cinc",
+  "cnic",
   "guest_name",
   "column_break_7",
   "posting_date",
@@ -50,13 +50,8 @@
    "fieldtype": "Select",
    "label": "Series",
    "options": "CHK-IN-.YYYY.-",
+   "print_hide": 1,
    "reqd": 1
-  },
-  {
-   "fieldname": "cinc",
-   "fieldtype": "Link",
-   "label": "CINC",
-   "options": "Hotel Guests"
   },
   {
    "fieldname": "column_break_7",
@@ -85,32 +80,42 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Room",
-   "options": "Rooms"
+   "options": "Rooms",
+   "reqd": 1
   },
   {
+   "fetch_from": "room_type.price",
    "fieldname": "rate",
    "fieldtype": "Currency",
    "label": "Rate",
-   "options": "Currency"
+   "options": "Currency",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_13",
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "room.room_type",
    "fieldname": "room_type",
-   "fieldtype": "Data",
-   "label": "Room Type"
+   "fieldtype": "Link",
+   "label": "Room Type",
+   "options": "Room Type",
+   "read_only": 1
   },
   {
+   "fetch_from": "room_type.capacity",
    "fieldname": "capacity",
    "fieldtype": "Int",
-   "label": "Capacity"
+   "label": "Capacity",
+   "read_only": 1
   },
   {
+   "fetch_from": "room_type.extra_beds",
    "fieldname": "extra_bed",
    "fieldtype": "Int",
-   "label": "Extra Bed"
+   "label": "Extra Bed",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_17",
@@ -123,7 +128,7 @@
    "in_list_view": 1,
    "label": "Status",
    "no_copy": 1,
-   "options": "\nDraft\nOn Hold\nTo Bill\nCompleted\nCancelled",
+   "options": "\nDraft\nTo Check Out\nCompleted\nCancelled",
    "print_hide": 1,
    "read_only": 1,
    "reqd": 1,
@@ -139,22 +144,32 @@
    "read_only": 1
   },
   {
+   "fetch_from": "cnic.guest_name",
    "fieldname": "guest_name",
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Guest Name"
+   "label": "Guest Name",
+   "read_only": 1
   },
   {
-   "default": "Today",
+   "default": "now",
    "fieldname": "posting_date",
    "fieldtype": "Date",
    "label": "Posting Date",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "cnic",
+   "fieldtype": "Link",
+   "label": "CNIC",
+   "options": "Hotel Guests",
    "reqd": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-29 18:08:08.526654",
+ "modified": "2020-01-30 11:59:17.827154",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check In",

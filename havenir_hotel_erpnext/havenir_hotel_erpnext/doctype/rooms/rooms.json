@@ -11,6 +11,7 @@
   "column_break_4",
   "room_type",
   "check_in_id",
+  "guest_name",
   "section_break_6",
   "facilities"
  ],
@@ -60,12 +61,21 @@
   },
   {
    "fieldname": "check_in_id",
+   "fieldtype": "Link",
+   "label": "Check In ID",
+   "options": "Hotel Check In",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "check_in_id.guest_name",
+   "fieldname": "guest_name",
    "fieldtype": "Data",
-   "label": "Check In ID"
+   "label": "Guest Name",
+   "read_only": 1
   }
  ],
  "icon": "calender",
- "modified": "2020-01-29 18:04:12.262493",
+ "modified": "2020-01-30 11:03:51.352406",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Rooms",
