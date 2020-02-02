@@ -12,7 +12,10 @@
   "date",
   "section_break_7",
   "details",
-  "check_in_id"
+  "section_break_9",
+  "document_type",
+  "column_break_11",
+  "document_id"
  ],
  "fields": [
   {
@@ -74,16 +77,31 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "check_in_id",
-   "fieldtype": "Link",
-   "label": "Check In ID",
-   "options": "Hotel Check In",
+   "fieldname": "section_break_9",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "document_type",
+   "fieldtype": "Select",
+   "label": "Document Type",
+   "options": "Hotel Check In\nRoom Food Order\nRoom Laundry Order",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_11",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "document_id",
+   "fieldtype": "Dynamic Link",
+   "label": "Document ID",
+   "options": "document_type",
    "read_only": 1,
    "reqd": 1
   }
  ],
  "istable": 1,
- "modified": "2020-01-30 14:07:34.724426",
+ "modified": "2020-01-31 12:22:52.575234",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check Out Item",

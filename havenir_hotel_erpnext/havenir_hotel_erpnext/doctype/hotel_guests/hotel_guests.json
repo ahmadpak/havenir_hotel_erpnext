@@ -1,30 +1,41 @@
 {
- "autoname": "field:cnic",
+ "autoname": "naming_series:",
  "creation": "2020-01-29 14:39:12.726257",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
+  "naming_series",
   "guest_name",
   "cnic",
+  "column_break_3",
+  "passport_no",
   "date_of_birth",
+  "contact_details_section",
+  "contact_no",
+  "guest_photo_attachment",
+  "guest_photo",
+  "column_break_8",
+  "current_address",
+  "permanent_address",
+  "section_break_11",
   "prefrences"
  ],
  "fields": [
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "cnic",
    "fieldtype": "Data",
    "in_global_search": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "CNIC",
-   "reqd": 1,
    "unique": 1
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "date_of_birth",
    "fieldtype": "Date",
-   "in_list_view": 1,
    "label": "Date of Birth",
    "reqd": 1
   },
@@ -34,18 +45,88 @@
    "label": "Prefrences"
   },
   {
+   "allow_in_quick_entry": 1,
    "fieldname": "guest_name",
    "fieldtype": "Data",
    "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Guest Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "passport_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Passport No",
+   "unique": 1
+  },
+  {
+   "fieldname": "contact_details_section",
+   "fieldtype": "Section Break",
+   "label": "Contact Details"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "contact_no",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Contact No",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "column_break_8",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "current_address",
+   "fieldtype": "Small Text",
+   "label": "Current Address"
+  },
+  {
+   "fieldname": "permanent_address",
+   "fieldtype": "Small Text",
+   "label": "Permanent Address"
+  },
+  {
+   "fieldname": "section_break_11",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "naming_series",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Naming Series",
+   "options": "GUEST-.YYYY.-.#####"
+  },
+  {
+   "fieldname": "guest_photo",
+   "fieldtype": "Image",
+   "label": "Guest Photo",
+   "options": "guest_photo_attachment"
+  },
+  {
+   "allow_in_quick_entry": 1,
+   "fieldname": "guest_photo_attachment",
+   "fieldtype": "Attach Image",
+   "in_preview": 1,
+   "label": "Guest Photo Attachment",
+   "options": "image",
+   "reqd": 1
   }
  ],
- "modified": "2020-01-29 15:43:05.276709",
+ "modified": "2020-02-02 20:54:44.057142",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Guests",
+ "name_case": "Title Case",
  "owner": "Administrator",
  "permissions": [
   {
@@ -85,8 +166,7 @@
    "write": 1
   }
  ],
- "quick_entry": 1,
- "search_fields": "guest_name,cnic",
+ "search_fields": "guest_name,cnic,passport_no,contact_no",
  "sort_field": "modified",
  "sort_order": "DESC",
  "title_field": "guest_name",

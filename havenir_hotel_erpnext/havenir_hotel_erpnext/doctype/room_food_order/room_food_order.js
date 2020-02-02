@@ -24,7 +24,9 @@ frappe.ui.form.on('Room Food Order', {
 	total_amount: function(frm){
 		let temp_total_amount = 0;
 		for (var i in frm.doc.items){
-			temp_total_amount += frm.doc.items[i].amount;
+			if (frm.doc.items[i].amount){
+				temp_total_amount += frm.doc.items[i].amount;
+			}
 		}
 		frm.set_value('total_amount',temp_total_amount);
 		frm.refresh_field('total_amount');

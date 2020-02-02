@@ -9,19 +9,21 @@
   "column_break_2",
   "title",
   "naming_series",
-  "cnic",
-  "guest_name",
+  "guest_id",
+  "guest_photo_attachment",
+  "check_in",
+  "company",
   "column_break_7",
   "posting_date",
-  "check_in",
-  "check_out",
-  "room_details_section",
-  "room",
-  "rate",
+  "passport_no",
+  "cnic",
+  "contact_no",
   "column_break_13",
-  "room_type",
-  "capacity",
-  "extra_bed",
+  "guest_name",
+  "guest_photo",
+  "room_details_section",
+  "rooms",
+  "total_amount",
   "section_break_17",
   "status",
   "amended_from"
@@ -51,6 +53,7 @@
    "label": "Series",
    "options": "CHK-IN-.YYYY.-",
    "print_hide": 1,
+   "read_only": 1,
    "reqd": 1
   },
   {
@@ -58,15 +61,10 @@
    "fieldtype": "Column Break"
   },
   {
+   "default": "now",
    "fieldname": "check_in",
    "fieldtype": "Datetime",
    "label": "Check In",
-   "reqd": 1
-  },
-  {
-   "fieldname": "check_out",
-   "fieldtype": "Datetime",
-   "label": "Check Out",
    "reqd": 1
   },
   {
@@ -75,47 +73,8 @@
    "label": "Room Details"
   },
   {
-   "fieldname": "room",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Room",
-   "options": "Rooms",
-   "reqd": 1
-  },
-  {
-   "fetch_from": "room_type.price",
-   "fieldname": "rate",
-   "fieldtype": "Currency",
-   "label": "Rate",
-   "options": "Currency",
-   "reqd": 1
-  },
-  {
    "fieldname": "column_break_13",
    "fieldtype": "Column Break"
-  },
-  {
-   "fetch_from": "room.room_type",
-   "fieldname": "room_type",
-   "fieldtype": "Link",
-   "label": "Room Type",
-   "options": "Room Type",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "room_type.capacity",
-   "fieldname": "capacity",
-   "fieldtype": "Int",
-   "label": "Capacity",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "room_type.extra_beds",
-   "fieldname": "extra_bed",
-   "fieldtype": "Int",
-   "label": "Extra Bed",
-   "read_only": 1
   },
   {
    "fieldname": "section_break_17",
@@ -144,7 +103,7 @@
    "read_only": 1
   },
   {
-   "fetch_from": "cnic.guest_name",
+   "fetch_from": "guest_id.guest_name",
    "fieldname": "guest_name",
    "fieldtype": "Data",
    "in_list_view": 1,
@@ -161,15 +120,75 @@
    "reqd": 1
   },
   {
+   "fetch_from": "guest_id.cnic",
    "fieldname": "cnic",
-   "fieldtype": "Link",
+   "fieldtype": "Data",
    "label": "CNIC",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "guest_id.contact_no",
+   "fieldname": "contact_no",
+   "fieldtype": "Data",
+   "label": "Contact No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "guest_id",
+   "fieldtype": "Link",
+   "label": "Guest ID",
    "options": "Hotel Guests",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "guest_id.passport_no",
+   "fieldname": "passport_no",
+   "fieldtype": "Data",
+   "label": "Passport No",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "guest_id.guest_photo_attachment",
+   "fieldname": "guest_photo_attachment",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Guest Photo Attachment",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval: doc.guest_photo_attachment",
+   "fieldname": "guest_photo",
+   "fieldtype": "HTML",
+   "in_preview": 1,
+   "label": "Guest Photo"
+  },
+  {
+   "fieldname": "rooms",
+   "fieldtype": "Table",
+   "label": "Rooms",
+   "options": "Hotel Check In Room",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Total Amount",
+   "options": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "print_hide": 1,
+   "remember_last_selected_value": 1,
    "reqd": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2020-01-30 11:59:17.827154",
+ "modified": "2020-02-02 22:44:43.667976",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check In",
