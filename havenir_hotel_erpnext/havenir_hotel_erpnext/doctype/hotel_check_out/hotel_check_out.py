@@ -54,6 +54,8 @@ class HotelCheckOut(Document):
             payment_doc.save()
             payment_doc.submit()
         
+        
+        
 
     def get_check_in_details(self):
         room_doc = frappe.get_doc('Rooms', self.room)
