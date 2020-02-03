@@ -58,6 +58,14 @@ def get_data():
                     "description": _("Create new Hotel Guests"),
                     "onboard": 1,
                 },
+
+                {
+                    "type": "doctype",
+                    "name": "Hotel Payment Entry",
+                    "label": _("Hotel Payment Entry"),
+                    "description": _("Create new Hotel Payment Entry"),
+                    "onboard": 1,
+                },
             ]
         },
         {
