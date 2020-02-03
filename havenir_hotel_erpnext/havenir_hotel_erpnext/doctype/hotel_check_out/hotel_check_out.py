@@ -14,6 +14,7 @@ class HotelCheckOut(Document):
         check_in_doc = frappe.get_doc('Hotel Check In',self.check_in_id)
         all_checked_out = 1
 
+        # Setting Food Orders to Complete
         room_food_order_list = frappe.get_list('Room Food Order', filters={
             'status': 'To Check Out',
             'room': self.room,
@@ -24,6 +25,7 @@ class HotelCheckOut(Document):
             food_order_doc = frappe.get_doc('Room Food Order', food_order.name)
             food_order_doc.db_set('status','Completed')
 
+        # Setting Laundry Orders to Complete
         room_laundry_order_list = frappe.get_list('Room Laundry Order', filters={
             'status': 'To Check Out',
             'room': self.room,
@@ -34,11 +36,24 @@ class HotelCheckOut(Document):
             laundry_order_doc = frappe.get_doc('Room Laundry Order', laundry_order.name)
             laundry_order_doc.db_set('status','Completed')
 
+        # Setting Check In doc to Complete
         for room in check_in_doc.rooms:
             if frappe.db.get_value('Rooms',room.room_no,'room_status') == 'Checked In':
                 all_checked_out = 0
         if all_checked_out == 1:
             check_in_doc.db_set('status','Completed')
+
+        # Creating Addtion Hotel Payment Vouchers
+        if self.net_balance_amount > 0:
+            payment_doc = frappe.new_doc('Hotel Payment Entry')
+            payment_doc.room = self.room
+            payment_doc.amount_paid = self.net_balance_amount
+            payment_doc.guest_id = self.guest_id
+            payment_doc.check_in_id = self.check_in_id
+            payment_doc.guest_name = self.guest_name
+            payment_doc.save()
+            payment_doc.submit()
+        
 
     def get_check_in_details(self):
         room_doc = frappe.get_doc('Rooms', self.room)
@@ -57,7 +72,7 @@ class HotelCheckOut(Document):
         check_in_dict = {}
         for room in hotel_check_in.rooms:
             if room.room_no == self.room:
-                check_in_dict['room_type'] = room.room_type
+                check_in_dict['room'] = room.room_no
                 check_in_dict['price'] = room.price
 
         # Geting Room Food Order Details
@@ -109,4 +124,20 @@ class HotelCheckOut(Document):
                 laundry_order_dict['items'].append(laundry_item_dict)
             laundry_order_list.append(laundry_order_dict)
         stay_days = frappe.utils.data.date_diff(self.check_out, self.check_in)
-        return [stay_days, check_in_dict, food_order_list, laundry_order_list]
+
+        # Getting Payments
+        payment_entry_list = []
+        room_payment_entry_list = frappe.get_list('Hotel Payment Entry',filters={
+            'check_in_id' : self.check_in_id,
+            'docstatus': 1
+        }, order_by='name asc')
+
+        for payment in room_payment_entry_list:
+            payment_entry_dict = {}
+            payment_doc = frappe.get_doc('Hotel Payment Entry', payment)
+            payment_entry_dict['payment_entry'] = payment_doc.name
+            payment_entry_dict['amount_paid'] = payment_doc.amount_paid
+            payment_entry_dict['posting_date'] = payment_doc.posting_date
+            payment_entry_list.append(payment_entry_dict)
+
+        return [stay_days, check_in_dict, food_order_list, laundry_order_list, payment_entry_list]

@@ -13,6 +13,12 @@ frappe.ui.form.on("Hotel Check Out", {
     });
   },
 
+  validate: function(frm){
+    if ((frm.doc.net_balance_amount - frm.doc.amount_paid) > 0){
+      frappe.throw('Amount paid must be equal or greater than net balance amount.')
+    }
+  },
+
   total: function(frm) {
     var temp_total_amount = 0;
     var temp_stay_charges = 0;
@@ -59,8 +65,22 @@ frappe.ui.form.on("Hotel Check Out", {
     }
     frm.doc.total_taxes_and_charges = temp_total_taxes_and_charges;
     frm.doc.net_total_amount = temp_net_total_amount;
+    
+    var temp_total_payments = 0;
+    for (var i in frm.doc.payments){
+      temp_total_payments += frm.doc.payments[i].amount;
+    }
+
+    var temp_net_balance_amount = frm.doc.net_total_amount - temp_total_payments;
+    frm.doc.net_balance_amount = temp_net_balance_amount;
+    if ( frm.doc.net_balance_amount < 0 ){
+      frm.doc.refund = -frm.doc.net_balance_amount;
+    }
+    
     frm.refresh_field("total_taxes_and_charges");
     frm.refresh_field("net_total_amount");
+    frm.refresh_field('net_balance_amount');
+    frm.refresh_field('refund');
   },
 
   room: function(frm) {
@@ -93,7 +113,7 @@ frappe.ui.form.on("Hotel Check Out", {
               }
               frm.doc.items = undefined;
               frm.add_child("items", {
-                item: data[1].room_type,
+                item: data[1].room,
                 qty: data[0],
                 rate: data[1].price,
                 amount: data[0] * data[1].price,
@@ -127,7 +147,16 @@ frappe.ui.form.on("Hotel Check Out", {
                   });
                 }
               }
+              console.log(data[4])
+              for (var i in data[4]){
+                frm.add_child("payments", {
+                  payment_entry: data[4][i].payment_entry,
+                  amount: data[4][i].amount_paid,
+                  posting_date: data[4][i].posting_date
+                })
+              }
               frm.refresh_field("items");
+              frm.refresh_field("payments")
               frm.trigger("total");
             }
           });
@@ -163,6 +192,18 @@ frappe.ui.form.on("Hotel Check Out", {
         }
       }
     });
+  },
+
+  amount_paid: function(frm){
+    if (frm.doc.amount_paid < 0 ){
+      frm.doc.amount_paid = 0;
+      frm.refresh_field('amount_paid');
+      frappe.msgprint('Amount paid must be greater than zero.')
+    }
+    else {
+      frm.doc.refund = -(frm.doc.net_balance_amount - frm.doc.amount_paid);
+      frm.refresh_field('refund');
+    }
   }
 });
 

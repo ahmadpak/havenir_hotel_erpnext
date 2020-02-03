@@ -37,8 +37,12 @@
   "section_break_15",
   "taxes_and_charges",
   "total_taxes_and_charges",
-  "section_break_17",
   "net_total_amount",
+  "section_break_17",
+  "payments",
+  "net_balance_amount",
+  "amount_paid",
+  "refund",
   "section_break_19",
   "status",
   "amended_from"
@@ -259,6 +263,8 @@
   {
    "fieldname": "room",
    "fieldtype": "Link",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
    "label": "Room",
    "options": "Rooms",
    "reqd": 1
@@ -282,10 +288,37 @@
    "label": "Guest ID",
    "options": "Hotel Guests",
    "read_only": 1
+  },
+  {
+   "fieldname": "amount_paid",
+   "fieldtype": "Currency",
+   "label": "Amount Paid",
+   "options": "Currency"
+  },
+  {
+   "fieldname": "refund",
+   "fieldtype": "Currency",
+   "label": "Refund",
+   "options": "Currency",
+   "read_only": 1
+  },
+  {
+   "fieldname": "payments",
+   "fieldtype": "Table",
+   "label": "Payments",
+   "options": "Hotel Check Out Payments",
+   "read_only": 1
+  },
+  {
+   "fieldname": "net_balance_amount",
+   "fieldtype": "Currency",
+   "label": "Net Balance Amount",
+   "options": "Currency",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2020-02-02 22:31:24.667619",
+ "modified": "2020-02-03 15:25:01.797030",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check Out",
