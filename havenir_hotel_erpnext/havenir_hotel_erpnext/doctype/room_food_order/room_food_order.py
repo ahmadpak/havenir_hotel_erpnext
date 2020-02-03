@@ -7,6 +7,11 @@ import frappe
 from frappe.model.document import Document
 
 class RoomFoodOrder(Document):
+	def validate(self):
+		room_doc = frappe.get_doc('Rooms', self.room)
+		if room_doc.room_status != 'Checked In':
+				frappe.throw('Room Status is not Checked In')
+				
 	def on_submit(self):
 		self.status = 'To Check Out'
 		doc = frappe.get_doc('Room Food Order', self.name)

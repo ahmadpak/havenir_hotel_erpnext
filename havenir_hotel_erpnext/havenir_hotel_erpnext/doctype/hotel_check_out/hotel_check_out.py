@@ -8,6 +8,10 @@ from frappe.model.document import Document
 
 
 class HotelCheckOut(Document):
+    def validate(self):
+        room_doc = frappe.get_doc('Rooms', self.room)
+        if room_doc.room_status != 'Checked In':
+            frappe.throw('Room Status is not Checked In')
     def on_submit(self):
         room_doc = frappe.get_doc('Rooms',self.room)
         room_doc.db_set('room_status','Available')
@@ -44,7 +48,7 @@ class HotelCheckOut(Document):
             check_in_doc.db_set('status','Completed')
 
         # Creating Addtion Hotel Payment Vouchers
-        if self.net_balance_amount > 0:
+        if self.net_balance_amount > 0 and self.customer == 'Hotel Walk In Customer':
             payment_doc = frappe.new_doc('Hotel Payment Entry')
             payment_doc.room = self.room
             payment_doc.amount_paid = self.net_balance_amount

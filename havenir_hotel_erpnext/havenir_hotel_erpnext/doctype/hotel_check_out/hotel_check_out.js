@@ -14,7 +14,7 @@ frappe.ui.form.on("Hotel Check Out", {
   },
 
   validate: function(frm){
-    if ((frm.doc.net_balance_amount - frm.doc.amount_paid) > 0 && frm.doc.customer != 'Hotel Walk In Customer'){
+    if ((frm.doc.net_balance_amount - frm.doc.amount_paid) > 0 && frm.doc.customer == 'Hotel Walk In Customer'){
       frappe.throw('Amount paid must be equal or greater than net balance amount.')
     }
   },
