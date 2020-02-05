@@ -9,7 +9,10 @@ from frappe.model.document import Document
 
 class HotelCheckIn(Document):
     def validate(self):
-        pass
+        for room in self.rooms:
+            room_doc = frappe.get_doc('Rooms', room.room_no)
+            if room_doc.room_status != 'Available':
+                frappe.throw('Room {} is not Available'.format(room.room_no))
 
     def on_submit(self):
         self.status = 'To Check Out'

@@ -10,11 +10,13 @@ from frappe.model.document import Document
 class HotelCheckOut(Document):
     def validate(self):
         room_doc = frappe.get_doc('Rooms', self.room)
-        if room_doc.room_status != 'Checked In':
+        if room_doc.room_status != 'Checked In' and room_doc.check_in_id == self.check_in_id:
             frappe.throw('Room Status is not Checked In')
+
     def on_submit(self):
         room_doc = frappe.get_doc('Rooms',self.room)
         room_doc.db_set('room_status','Available')
+        room_doc.db_set('check_in_id',None)
         check_in_doc = frappe.get_doc('Hotel Check In',self.check_in_id)
         all_checked_out = 1
 
@@ -47,16 +49,34 @@ class HotelCheckOut(Document):
         if all_checked_out == 1:
             check_in_doc.db_set('status','Completed')
 
-        # Creating Addtion Hotel Payment Vouchers
-        if self.net_balance_amount > 0 and self.customer == 'Hotel Walk In Customer':
+        # Creating Additional Hotel Payment Vouchers
+        if self.amount_paid > 0 and self.customer == 'Hotel Walk In Customer':
             payment_doc = frappe.new_doc('Hotel Payment Entry')
             payment_doc.room = self.room
-            payment_doc.amount_paid = self.net_balance_amount
+            payment_doc.amount_paid = self.amount_paid - self.refund
             payment_doc.guest_id = self.guest_id
             payment_doc.check_in_id = self.check_in_id
             payment_doc.guest_name = self.guest_name
             payment_doc.save()
             payment_doc.submit()
+        
+        if self.amount_paid == 0 and self.refund > 0:
+            hotel_refund_entry = frappe.new_doc('Hotel Payment Entry')
+            hotel_refund_entry.company = self.company
+            hotel_refund_entry.posting_date = self.posting_date
+            hotel_refund_entry.entry_type = 'Refund'
+            hotel_refund_entry.room = self.room
+            hotel_refund_entry.amount_paid = self.refund
+            hotel_refund_entry.guest_id = self.guest_id
+            hotel_refund_entry.check_in_id = self.check_in_id
+            hotel_refund_entry.guest_name = self.guest_name
+            hotel_refund_entry.save()
+            hotel_refund_entry.submit()
+
+
+
+        # Creating Sales Invoice
+        create_sales_invoice(self, all_checked_out)
         
         
         
@@ -135,15 +155,181 @@ class HotelCheckOut(Document):
         payment_entry_list = []
         room_payment_entry_list = frappe.get_list('Hotel Payment Entry',filters={
             'check_in_id' : self.check_in_id,
-            'docstatus': 1
+            'docstatus': 1,
+            'room': self.room
         }, order_by='name asc')
 
         for payment in room_payment_entry_list:
             payment_entry_dict = {}
             payment_doc = frappe.get_doc('Hotel Payment Entry', payment)
             payment_entry_dict['payment_entry'] = payment_doc.name
-            payment_entry_dict['amount_paid'] = payment_doc.amount_paid
+            if payment_doc.entry_type == 'Receive':
+                payment_entry_dict['amount_paid'] = payment_doc.amount_paid
+            else:
+                payment_entry_dict['amount_paid'] = -payment_doc.amount_paid
             payment_entry_dict['posting_date'] = payment_doc.posting_date
             payment_entry_list.append(payment_entry_dict)
 
         return [stay_days, check_in_dict, food_order_list, laundry_order_list, payment_entry_list]
+
+
+def create_sales_invoice(self, all_checked_out):
+    # Sales Invoice for Hotel Walk In Customer
+    if self.customer == 'Hotel Walk In Customer':
+        # Creating Sales Invoice
+        sales_invoice_doc = frappe.new_doc('Sales Invoice')
+        company = frappe.get_doc('Company', self.company)
+        sales_invoice_doc.discount_amount = 0
+
+        sales_invoice_doc.customer = self.customer
+        sales_invoice_doc.check_in_id = self.check_in_id
+        sales_invoice_doc.check_in_date = frappe.get_value('Hotel Check In', self.check_in_id, 'check_in')
+        sales_invoice_doc.due_date = frappe.utils.data.today()
+        sales_invoice_doc.debit_to = company.default_receivable_account
+
+        # Looping through the check out items
+        for item in self.items:
+            item_doc = frappe.get_doc('Item', item.item)
+
+            # Getting Item default Income Account
+            default_income_account = None
+            for item_default in item_doc.item_defaults:
+                if item_default.company == self.company:
+                    if item_default.income_account:
+                        default_income_account = item_default.income_account
+                    else:
+                        default_income_account = company.default_income_account
+
+            # Adding Items to Sales Invoice
+            sales_invoice_doc.append('items',{
+                'item_code': item_doc.item_code,
+                'item_name': item_doc.item_name,
+                'description': item_doc.description,
+                'qty': item.qty,
+                'uom': item_doc.stock_uom,
+                'rate': item.rate,
+                'amount': item.amount,
+                'income_account': default_income_account
+            })
+        if self.discount != 0:
+            sales_invoice_doc.discount_amount += self.discount
+        sales_invoice_doc.insert(ignore_permissions=True)
+        sales_invoice_doc.submit()
+    else: 
+        create_walk_in_invoice = 0
+        for item in self.items:
+            if item.is_pos == 1:
+                create_walk_in_invoice = 1
+        if create_walk_in_invoice == 1:
+            # Creating Sales Invoice
+            sales_invoice_doc = frappe.new_doc('Sales Invoice')
+            company = frappe.get_doc('Company', self.company)
+            sales_invoice_doc.discount_amount = 0
+
+            sales_invoice_doc.customer = 'Hotel Walk In Customer'
+            sales_invoice_doc.check_in_id = self.check_in_id
+            sales_invoice_doc.check_in_date = frappe.get_value('Hotel Check In', self.check_in_id, 'check_in')
+            sales_invoice_doc.due_date = frappe.utils.data.today()
+            sales_invoice_doc.debit_to = company.default_receivable_account
+
+            # Looping through the check out items
+            for item in self.items:
+                if item.is_pos == 1:
+                    item_doc = frappe.get_doc('Item', item.item)
+
+                    # Getting Item default Income Account
+                    default_income_account = None
+                    for item_default in item_doc.item_defaults:
+                        if item_default.company == self.company:
+                            if item_default.income_account:
+                                default_income_account = item_default.income_account
+                            else:
+                                default_income_account = company.default_income_account
+
+                    # Adding Items to Sales Invoice
+                    sales_invoice_doc.append('items',{
+                        'item_code': item_doc.item_code,
+                        'item_name': item_doc.item_name,
+                        'description': item_doc.description,
+                        'qty': item.qty,
+                        'uom': item_doc.stock_uom,
+                        'rate': item.rate,
+                        'amount': item.amount,
+                        'income_account': default_income_account
+                    })
+            if self.discount:
+                sales_invoice_doc.discount_amount = self.discount
+            sales_invoice_doc.insert(ignore_permissions=True)
+            sales_invoice_doc.submit()
+
+            # Creating Additional Payment Vouchers
+            if self.total_pos_charges - self.total_payments > 0:
+                payment_doc = frappe.new_doc('Hotel Payment Entry')
+                payment_doc.room = self.room
+                payment_doc.amount_paid = self.total_pos_charges - self.total_payments - self.discount
+                payment_doc.guest_id = self.guest_id
+                payment_doc.check_in_id = self.check_in_id
+                payment_doc.guest_name = self.guest_name
+                payment_doc.save()
+                payment_doc.submit()
+
+        
+        # Getting list of check_out with same check in id and is not Hotel Walk In Customer
+        check_out_list = frappe.get_list('Hotel Check Out', filters={
+            'docstatus': 1,
+            'check_in_id': self.check_in_id,
+            'customer': ['not like', 'Hotel Walk In Customer']
+        },
+        order_by = 'name asc')
+        frappe.msgprint('{}'.format(check_out_list))
+        print(check_out_list)
+        if all_checked_out == 1 and check_out_list:
+            # Creating Sales Invoice
+            sales_invoice_doc = frappe.new_doc('Sales Invoice')
+            company = frappe.get_doc('Company', self.company)
+            sales_invoice_doc.discount_amount = 0
+            
+            # Looping through the list
+            for check_out_name in check_out_list:
+                check_out_doc = frappe.get_doc('Hotel Check Out', check_out_name)
+                if sales_invoice_doc.customer == None:
+                    sales_invoice_doc.customer = check_out_doc.customer
+                    sales_invoice_doc.check_in_id = check_out_doc.check_in_id
+                    sales_invoice_doc.check_in_date = frappe.get_value('Hotel Check In', self.check_in_id, 'check_in')
+                    sales_invoice_doc.due_date = frappe.utils.data.today()
+                    sales_invoice_doc.debit_to = company.default_receivable_account
+                
+                # Looping through the check out items
+                exclude_discount = 0
+                for item in check_out_doc.items:
+                    if item.is_pos == 0:
+                        item_doc = frappe.get_doc('Item', item.item)
+                        print(item.item)
+                        frappe.msgprint('{}'.format(item.item))
+                        # Getting Item default Income Account
+                        default_income_account = None
+                        for item_default in item_doc.item_defaults:
+                            if item_default.company == check_out_doc.company:
+                                if item_default.income_account:
+                                    default_income_account = item_default.income_account
+                                else:
+                                    default_income_account = company.default_income_account
+
+                        # Adding Items to Sales Invoice
+                        sales_invoice_doc.append('items',{
+                            'item_code': item_doc.item_code,
+                            'item_name': item_doc.item_name,
+                            'description': item_doc.description,
+                            'qty': item.qty,
+                            'uom': item_doc.stock_uom,
+                            'rate': item.rate,
+                            'amount': item.amount,
+                            'income_account': default_income_account
+                        })
+                    else:
+                        exclude_discount = 1
+
+                if check_out_doc.discount != 0 and exclude_discount == 0:
+                    sales_invoice_doc.discount_amount += check_out_doc.discount
+            sales_invoice_doc.insert(ignore_permissions=True)
+            sales_invoice_doc.submit()

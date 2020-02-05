@@ -11,8 +11,10 @@
   "column_break_4",
   "posting_date",
   "section_break_4",
+  "entry_type",
   "room",
   "amount_paid",
+  "advance",
   "column_break_6",
   "guest_id",
   "check_in_id",
@@ -113,10 +115,27 @@
    "options": "Company",
    "read_only": 1,
    "remember_last_selected_value": 1
+  },
+  {
+   "default": "Receive",
+   "fieldname": "entry_type",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Entry Type",
+   "options": "Receive\nRefund"
+  },
+  {
+   "depends_on": "eval: doc.entry_type == 'Refund';",
+   "fieldname": "advance",
+   "fieldtype": "Currency",
+   "label": "Advance",
+   "options": "Currency",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2020-02-03 13:50:12.245494",
+ "modified": "2020-02-05 11:34:02.575349",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Payment Entry",

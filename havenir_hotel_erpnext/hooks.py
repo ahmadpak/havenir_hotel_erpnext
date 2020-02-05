@@ -14,6 +14,17 @@ app_license = "MIT"
 # Includes in <head>
 # ------------------
 
+fixtures = [{
+  'dt' : 'Custom Field', 'filters':[
+    [
+      'name', 'in', [
+        'Sales Invoice-check_in_id',
+        'Sales Invoice-check_in_date',
+      ]
+    ]
+  ]
+}]
+
 # include js, css files in header of desk.html
 # app_include_css = "/assets/havenir_hotel_erpnext/css/havenir_hotel_erpnext.css"
 # app_include_js = "/assets/havenir_hotel_erpnext/js/havenir_hotel_erpnext.js"

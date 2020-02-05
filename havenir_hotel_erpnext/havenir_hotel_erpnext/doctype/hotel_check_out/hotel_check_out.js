@@ -14,9 +14,29 @@ frappe.ui.form.on("Hotel Check Out", {
   },
 
   validate: function(frm){
-    if ((frm.doc.net_balance_amount - frm.doc.amount_paid) > 0 && frm.doc.customer == 'Hotel Walk In Customer'){
+    if ((frm.doc.net_total_amount - frm.doc.total_payments - frm.doc.amount_paid - frm.doc.discount) > 0 && frm.doc.customer == 'Hotel Walk In Customer'){
       frappe.throw('Amount paid must be equal or greater than net balance amount.')
     }
+    // checking if any item is pos
+    let is_pos = 0;
+    let temp_msc_exp_total = 0
+    let temp_msc_total_payments = 0
+    for (var i in frm.doc.items){
+      if (frm.doc.items[i].is_pos == 1){
+        is_pos = 1;
+        temp_msc_exp_total += frm.doc.items[i].amount;
+      }
+    }
+
+    if ( is_pos == 1 ){
+      for (var i in frm.doc.payments){
+        temp_msc_total_payments += frm.doc.payments[i].amount;
+      }
+      if ((temp_msc_total_payments + frm.doc.discount + frm.doc.amount_paid) < temp_msc_exp_total){
+        frappe.throw('Please pay POS Charges.')
+      }
+    }
+    
   },
 
   total: function(frm) {
@@ -54,6 +74,19 @@ frappe.ui.form.on("Hotel Check Out", {
       }
     }
 
+    let temp_total_pos_charges = 0;
+    for (var i in frm.doc.items){
+      if(frm.doc.customer != 'Hotel Walk In Customer' && frm.doc.items[i].is_pos == 1){
+        temp_total_pos_charges += frm.doc.items[i].amount;
+      }
+      else if(frm.doc.customer == 'Hotel Walk In Customer' && frm.doc.items[i].is_pos == 1){
+        frm.doc.items[i].is_pos = 0;
+      }
+    }
+    frm.doc.total_pos_charges = temp_total_pos_charges;
+    frm.refresh_field('items');
+    frm.refresh_field('total_pos_charges');
+
     var temp_net_total_amount = 0;
     var temp_total_taxes_and_charges = 0;
     temp_net_total_amount += frm.doc.total_amount;
@@ -71,10 +104,18 @@ frappe.ui.form.on("Hotel Check Out", {
       temp_total_payments += frm.doc.payments[i].amount;
     }
 
-    var temp_net_balance_amount = frm.doc.net_total_amount - temp_total_payments;
-    frm.doc.net_balance_amount = temp_net_balance_amount;
-    if ( frm.doc.net_balance_amount < 0 ){
-      frm.doc.refund = -frm.doc.net_balance_amount;
+    frm.doc.net_balance_amount = 0;
+    var temp_net_balance_amount = frm.doc.net_total_amount - temp_total_payments - frm.doc.discount - frm.doc.amount_paid;
+    if (temp_net_balance_amount > 0){
+      frm.doc.net_balance_amount = temp_net_balance_amount;
+    }
+    
+    frm.doc.refund = 0;
+    if ( temp_net_balance_amount < 0 && frm.doc.total_pos_charges == 0){
+      frm.doc.refund = -temp_net_balance_amount;
+    }
+    else if (frm.doc.total_pos_charges > 0) {
+      frm.doc.refund = -(frm.doc.total_pos_charges - frm.doc.total_payments - frm.doc.amount_paid - frm.doc.discount);
     }
     
     frm.refresh_field("total_taxes_and_charges");
@@ -147,20 +188,30 @@ frappe.ui.form.on("Hotel Check Out", {
                   });
                 }
               }
+              let temp_total_payments = 0
+              frm.doc.payments = null;
               for (var i in data[4]){
                 frm.add_child("payments", {
                   payment_entry: data[4][i].payment_entry,
                   amount: data[4][i].amount_paid,
                   posting_date: data[4][i].posting_date
                 })
+                temp_total_payments += data[4][i].amount_paid
               }
+              frm.doc.total_payments = temp_total_payments;
+              console.log(temp_total_payments)
               frm.refresh_field("items");
-              frm.refresh_field("payments")
+              frm.refresh_field("payments");
+              frm.refresh_field("total_payments");
               frm.trigger("total");
             }
           });
         });
     }
+  },
+
+  customer: function(frm){
+    frm.trigger('total');
   },
 
   check_out: function(frm) {
@@ -193,6 +244,10 @@ frappe.ui.form.on("Hotel Check Out", {
     });
   },
 
+  discount: function(frm){
+    frm.trigger("total");
+  },
+  
   amount_paid: function(frm){
     if (frm.doc.amount_paid < 0 ){
       frm.doc.amount_paid = 0;
@@ -203,8 +258,16 @@ frappe.ui.form.on("Hotel Check Out", {
       frm.doc.refund = -(frm.doc.net_balance_amount - frm.doc.amount_paid);
       frm.refresh_field('refund');
     }
-  }
+    frm.trigger('total');
+  },
 });
+
+frappe.ui.form.on('Hotel Check Out Item', {
+  is_pos: function(frm, cdt, cdn){
+    frm.trigger('total');
+  }
+})
+
 
 frappe.ui.form.on("Hotel Check Out Taxes and Charges", {
   type: function(frm, cdt, cdn) {
@@ -250,5 +313,6 @@ frappe.ui.form.on("Hotel Check Out Taxes and Charges", {
 
   taxes_and_charges_remove: function(frm, cdt, cdn) {
     frm.trigger("total");
-  }
+  },
+
 });

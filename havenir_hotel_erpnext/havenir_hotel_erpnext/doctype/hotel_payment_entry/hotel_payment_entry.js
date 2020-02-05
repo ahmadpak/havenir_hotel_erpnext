@@ -12,6 +12,17 @@ frappe.ui.form.on('Hotel Payment Entry', {
       };
     });
 	},
+
+	entry_type: function(frm){
+		if (frm.doc.room){
+			frm
+			.call('get_advance_payments')
+			.then( r => {
+				frm.doc.advance = r.message
+				frm.refresh_field('advance')
+			})
+		}
+	},
 	
 	room: function(frm){
 		if (frm.doc.room != undefined) {
@@ -25,6 +36,7 @@ frappe.ui.form.on('Hotel Payment Entry', {
 				frm.refresh_field('guest_id');
 				frm.refresh_field('guest_name');
 				frm.refresh_field('check_in_id');
+				frm.trigger('entry_type');
 			})
 		}
 	},
@@ -42,6 +54,10 @@ frappe.ui.form.on('Hotel Payment Entry', {
 			frm.doc.amount_paid = 0;
 			frm.refresh_field('amount_paid');
 			frappe.throw('Amount Paid should be greater than zero.')
+		}
+
+		if (frm.doc.amount_paid > frm.doc.advance && frm.doc.entry_type == 'Refund'){
+			frappe.throw('Cannot refund amount more than advance paid');
 		}
 	}
 });

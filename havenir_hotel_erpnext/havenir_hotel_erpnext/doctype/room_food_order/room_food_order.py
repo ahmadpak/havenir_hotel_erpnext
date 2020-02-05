@@ -9,7 +9,7 @@ from frappe.model.document import Document
 class RoomFoodOrder(Document):
 	def validate(self):
 		room_doc = frappe.get_doc('Rooms', self.room)
-		if room_doc.room_status != 'Checked In':
+		if room_doc.room_status != 'Checked In' and room_doc.check_in_id == self.check_in_id:
 				frappe.throw('Room Status is not Checked In')
 				
 	def on_submit(self):
