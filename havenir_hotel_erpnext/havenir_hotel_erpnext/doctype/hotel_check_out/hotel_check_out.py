@@ -281,8 +281,6 @@ def create_sales_invoice(self, all_checked_out):
             'customer': ['not like', 'Hotel Walk In Customer']
         },
         order_by = 'name asc')
-        frappe.msgprint('{}'.format(check_out_list))
-        print(check_out_list)
         if all_checked_out == 1 and check_out_list:
             # Creating Sales Invoice
             sales_invoice_doc = frappe.new_doc('Sales Invoice')
@@ -304,8 +302,6 @@ def create_sales_invoice(self, all_checked_out):
                 for item in check_out_doc.items:
                     if item.is_pos == 0:
                         item_doc = frappe.get_doc('Item', item.item)
-                        print(item.item)
-                        frappe.msgprint('{}'.format(item.item))
                         # Getting Item default Income Account
                         default_income_account = None
                         for item_default in item_doc.item_defaults:
