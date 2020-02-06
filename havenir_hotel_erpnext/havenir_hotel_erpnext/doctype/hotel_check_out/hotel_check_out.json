@@ -159,6 +159,7 @@
   {
    "fieldname": "taxes_and_charges",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Taxes and Charges",
    "options": "Hotel Check Out Taxes and Charges"
   },
@@ -169,6 +170,7 @@
   {
    "fieldname": "net_total_amount",
    "fieldtype": "Currency",
+   "hidden": 1,
    "label": "Net Total Amount",
    "options": "Currency",
    "read_only": 1
@@ -252,6 +254,7 @@
   {
    "fieldname": "total_taxes_and_charges",
    "fieldtype": "Currency",
+   "hidden": 1,
    "label": "Total Taxes and Charges",
    "options": "Currency",
    "read_only": 1
@@ -359,7 +362,7 @@
   }
  ],
  "is_submittable": 1,
- "modified": "2020-02-06 11:11:08.050205",
+ "modified": "2020-02-06 11:57:03.441596",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check Out",
