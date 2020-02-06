@@ -227,7 +227,7 @@ frappe.ui.form.on("Hotel Check Out", {
           }
           for (var i in doc.items) {
             if (doc.items[i].item) {
-              if (doc.items[i].item.includes("Room")) {
+              if (doc.items[i].document_type.includes("Hotel Check In")) {
                 doc.items[i].qty = days;
                 doc.items[i].amount = days * doc.items[i].rate;
                 frm.refresh_field("items");
