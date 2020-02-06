@@ -215,7 +215,7 @@ def create_sales_invoice(self, all_checked_out):
             sales_invoice_doc.discount_amount += self.discount
         sales_invoice_doc.insert(ignore_permissions=True)
         sales_invoice_doc.submit()
-    if all_checked_out == 1: 
+    if all_checked_out == 1 or self.customer != 'Hotel Walk In Customer': 
         create_walk_in_invoice = 0
         for item in self.items:
             if item.is_pos == 1:
