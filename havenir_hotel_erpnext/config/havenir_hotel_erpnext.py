@@ -69,21 +69,21 @@ def get_data():
             ]
         },
         {
-            "label": _("Room Orders"),
+            "label": _("Orders"),
             "items": [
                 {
                     "type": "doctype",
-                    "name": "Room Food Order",
-                    "label": _("Room Food Order"),
-                    "description": _("Create new Room Food Order"),
+                    "name": "Hotel Food Order",
+                    "label": _("Hotel Food Order"),
+                    "description": _("Create new Hotel Food Order"),
                     "onboard": 1,
                 },
 
                 {
                     "type": "doctype",
-                    "name": "Room Laundry Order",
-                    "label": _("Room Laundry Order"),
-                    "description": _("Create new Room Laundry Order"),
+                    "name": "Hotel Laundry Order",
+                    "label": _("Hotel Laundry Order"),
+                    "description": _("Create new Hotel Laundry Order"),
                     "onboard": 1,
                 },
             ]

@@ -7,9 +7,12 @@
  "field_order": [
   "section_break_1",
   "title",
+  "order_type",
+  "column_break_4",
   "naming_series",
+  "section_break_6",
   "room",
-  "source",
+  "department",
   "company",
   "column_break_5",
   "posting_date",
@@ -39,25 +42,18 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
-   "hidden": 1,
    "label": "Series",
-   "options": "RM-LO-.YYYY.-",
-   "print_hide": 1
+   "options": "HT-LO-.YYYY.-",
+   "print_hide": 1,
+   "reqd": 1
   },
   {
+   "depends_on": "eval: doc.order_type == 'Room';",
    "fieldname": "room",
    "fieldtype": "Link",
    "in_list_view": 1,
    "label": "Room",
-   "options": "Rooms",
-   "reqd": 1
-  },
-  {
-   "default": "Hotel",
-   "fieldname": "source",
-   "fieldtype": "Select",
-   "label": "Source",
-   "options": "Hotel\nOutside"
+   "options": "Rooms"
   },
   {
    "fieldname": "column_break_5",
@@ -79,7 +75,7 @@
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Items",
-   "options": "Room Laundry Order Item",
+   "options": "Hotel Laundry Order Item",
    "reqd": 1
   },
   {
@@ -112,7 +108,7 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Room Laundry Order",
+   "options": "Hotel Laundry Order",
    "print_hide": 1,
    "read_only": 1
   },
@@ -140,13 +136,35 @@
    "options": "Company",
    "print_hide": 1,
    "remember_last_selected_value": 1
+  },
+  {
+   "fieldname": "order_type",
+   "fieldtype": "Select",
+   "label": "Order Type",
+   "options": "\nRoom\nHotel\nBanquet Hall\nRestaurant\nStaff",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "section_break_6",
+   "fieldtype": "Section Break"
+  },
+  {
+   "depends_on": "eval: doc.order_type == 'Staff';",
+   "fieldname": "department",
+   "fieldtype": "Link",
+   "label": "Department",
+   "options": "Department"
   }
  ],
  "is_submittable": 1,
- "modified": "2020-02-02 20:39:50.606873",
+ "modified": "2020-02-08 13:42:14.442943",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
- "name": "Room Laundry Order",
+ "name": "Hotel Laundry Order",
  "owner": "Administrator",
  "permissions": [
   {

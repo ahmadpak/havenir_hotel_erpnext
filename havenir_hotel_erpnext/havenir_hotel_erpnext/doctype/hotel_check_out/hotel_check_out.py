@@ -21,25 +21,25 @@ class HotelCheckOut(Document):
         all_checked_out = 1
 
         # Setting Food Orders to Complete
-        room_food_order_list = frappe.get_list('Room Food Order', filters={
+        room_food_order_list = frappe.get_list('Hotel Food Order', filters={
             'status': 'To Check Out',
             'room': self.room,
             'check_in_id': self.check_in_id
         })
 
         for food_order in room_food_order_list:
-            food_order_doc = frappe.get_doc('Room Food Order', food_order.name)
+            food_order_doc = frappe.get_doc('Hotel Food Order', food_order.name)
             food_order_doc.db_set('status','Completed')
 
         # Setting Laundry Orders to Complete
-        room_laundry_order_list = frappe.get_list('Room Laundry Order', filters={
+        room_laundry_order_list = frappe.get_list('Hotel Laundry Order', filters={
             'status': 'To Check Out',
             'room': self.room,
             'check_in_id': self.check_in_id
         })
 
         for laundry_order in room_laundry_order_list:
-            laundry_order_doc = frappe.get_doc('Room Laundry Order', laundry_order.name)
+            laundry_order_doc = frappe.get_doc('Hotel Laundry Order', laundry_order.name)
             laundry_order_doc.db_set('status','Completed')
 
         # Setting Check In doc to Complete
@@ -101,19 +101,19 @@ class HotelCheckOut(Document):
                 check_in_dict['room'] = room.room_no
                 check_in_dict['price'] = room.price
 
-        # Geting Room Food Order Details
+        # Geting Hotel Food Order Details
         food_order_list = []
-        room_food_order_list = frappe.get_list('Room Food Order', filters={
+        room_food_order_list = frappe.get_list('Hotel Food Order', filters={
             'status': 'To Check Out',
             'room': self.room,
             'check_in_id': self.check_in_id
         })
         for food_order in room_food_order_list:
             food_order_dict = {}
-            food_order_doc = frappe.get_doc('Room Food Order', food_order.name)
+            food_order_doc = frappe.get_doc('Hotel Food Order', food_order.name)
             food_order_dict['name'] = food_order_doc.name
             food_order_dict['date'] = food_order_doc.posting_date
-            food_order_dict['source'] = food_order_doc.source
+            food_order_dict['order_type'] = food_order_doc.order_type
             food_order_dict['items'] = []
             # Looping through items
             for item in food_order_doc.items:
@@ -125,9 +125,9 @@ class HotelCheckOut(Document):
                 food_order_dict['items'].append(food_item_dict)
             food_order_list.append(food_order_dict)
 
-        # Getting Room Laundry Order Details
+        # Getting Hotel Laundry Order Details
         laundry_order_list = []
-        room_laundry_order_list = frappe.get_list('Room Laundry Order', filters={
+        room_laundry_order_list = frappe.get_list('Hotel Laundry Order', filters={
             'status': 'To Check Out',
             'room': self.room,
             'check_in_id': self.check_in_id
@@ -135,10 +135,10 @@ class HotelCheckOut(Document):
         for laundry_order in room_laundry_order_list:
             laundry_order_dict = {}
             laundry_order_doc = frappe.get_doc(
-                'Room Laundry Order', laundry_order.name)
+                'Hotel Laundry Order', laundry_order.name)
             laundry_order_dict['name'] = laundry_order_doc.name
             laundry_order_dict['date'] = laundry_order_doc.posting_date
-            laundry_order_dict['source'] = laundry_order_doc.source
+            laundry_order_dict['order_type'] = laundry_order_doc.order_type
             laundry_order_dict['items'] = []
             # Looping through items
             for item in laundry_order_doc.items:
