@@ -48,9 +48,9 @@ frappe.ui.form.on("Hotel Check Out", {
       temp_total_amount += frm.doc.items[i].amount;
       if (frm.doc.items[i].document_type == "Hotel Check In") {
         temp_stay_charges += frm.doc.items[i].amount;
-      } else if (frm.doc.items[i].document_type == "Room Food Order") {
+      } else if (frm.doc.items[i].document_type == "Hotel Food Order") {
         temp_food_charges += frm.doc.items[i].amount;
-      } else if (frm.doc.items[i].document_type == "Room Laundry Order") {
+      } else if (frm.doc.items[i].document_type == "Hotel Laundry Order") {
         temp_laundry_charges += frm.doc.items[i].amount;
       }
     }
@@ -170,7 +170,7 @@ frappe.ui.form.on("Hotel Check Out", {
                     rate: data[2][i].items[j].rate,
                     amount: data[2][i].items[j].amount,
                     date: data[2][i].date,
-                    document_type: "Room Food Order",
+                    document_type: "Hotel Food Order",
                     document_id: data[2][i].name
                   });
                 }
@@ -183,7 +183,7 @@ frappe.ui.form.on("Hotel Check Out", {
                     rate: data[3][i].items[j].rate,
                     amount: data[3][i].items[j].amount,
                     date: data[3][i].date,
-                    document_type: "Room Laundry Order",
+                    document_type: "Hotel Laundry Order",
                     document_id: data[3][i].name
                   });
                 }
