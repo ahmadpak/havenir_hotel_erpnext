@@ -1,0 +1,108 @@
+{
+ "creation": "2020-02-10 23:52:30.765599",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "customer_selection_section",
+  "hotel_party",
+  "restaurant_party",
+  "banquet_hall_party",
+  "take_away",
+  "column_break_6",
+  "hotel_walk_in_customer",
+  "restaurant_walk_in_customer",
+  "room_complimentary",
+  "staff_entertainment"
+ ],
+ "fields": [
+  {
+   "fieldname": "customer_selection_section",
+   "fieldtype": "Section Break",
+   "label": "Customer Selection"
+  },
+  {
+   "fieldname": "hotel_party",
+   "fieldtype": "Link",
+   "label": "Hotel Party",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "restaurant_party",
+   "fieldtype": "Link",
+   "label": "Restaurant Party",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "banquet_hall_party",
+   "fieldtype": "Link",
+   "label": "Banquet Hall Party",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "take_away",
+   "fieldtype": "Link",
+   "label": "Take Away",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "column_break_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "hotel_walk_in_customer",
+   "fieldtype": "Link",
+   "label": "Hotel Walk In Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "restaurant_walk_in_customer",
+   "fieldtype": "Link",
+   "label": "Restaurant Walk In Customer",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "room_complimentary",
+   "fieldtype": "Link",
+   "label": "Room Complimentary",
+   "options": "Customer"
+  },
+  {
+   "fieldname": "staff_entertainment",
+   "fieldtype": "Link",
+   "label": "Staff Entertainment",
+   "options": "Customer"
+  }
+ ],
+ "issingle": 1,
+ "modified": "2020-02-10 23:52:57.069521",
+ "modified_by": "Administrator",
+ "module": "Havenir Hotel Erpnext",
+ "name": "Hotel Management Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "print": 1,
+   "read": 1,
+   "role": "Sales Master Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "track_changes": 1
+}

@@ -199,7 +199,6 @@ frappe.ui.form.on("Hotel Check Out", {
                 temp_total_payments += data[4][i].amount_paid
               }
               frm.doc.total_payments = temp_total_payments;
-              console.log(temp_total_payments)
               frm.refresh_field("items");
               frm.refresh_field("payments");
               frm.refresh_field("total_payments");

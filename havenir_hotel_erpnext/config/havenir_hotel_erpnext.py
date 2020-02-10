@@ -81,11 +81,32 @@ def get_data():
 
                 {
                     "type": "doctype",
+                    "name": "Restaurant Tables",
+                    "label": _("Restaurant Tables"),
+                    "description": _("Create Restaurant Tables"),
+                    "onboard": 1,
+                },
+                
+                {
+                    "type": "doctype",
                     "name": "Hotel Laundry Order",
                     "label": _("Hotel Laundry Order"),
                     "description": _("Create new Hotel Laundry Order"),
                     "onboard": 1,
                 },
+                
             ]
         },
+        {
+            "label": _("Settings"),
+            "items": [
+                {
+                    "type": "doctype",
+                    "name": "Hotel Management Settings",
+                    "label": _("Hotel Management Settings"),
+                    "description": _("Create Hotel Management Settings"),
+                    "onboard": 1,
+                }
+            ]
+        }
     ]
