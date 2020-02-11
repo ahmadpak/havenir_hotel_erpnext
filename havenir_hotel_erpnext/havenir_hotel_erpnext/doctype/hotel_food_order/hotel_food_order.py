@@ -23,6 +23,18 @@ class HotelFoodOrder(Document):
         doc = frappe.get_doc('Hotel Food Order', self.name)
         doc.db_set('status', 'Cancelled')
 
+    def get_price(self, item):
+        item_price = frappe.get_value('Item Price', 
+        {
+            'price_list': 'Standard Selling',
+            'item_code': item,
+            'selling': 1 
+        },
+        [
+            'price_list_rate'
+        ])
+        print(item_price)
+        return item_price
 
 def create_invoice(self):
     company = frappe.get_doc('Company', self.company)
@@ -31,7 +43,16 @@ def create_invoice(self):
 
       # Creating Sales Invoice 
       create_sales_invoice(self, customer = 'Room Complimentary', company = company, check_in_id=self.check_in_id, remarks= remarks)
-    
+
+    elif self.order_type == 'Room' and self.is_paid == 1:
+      remarks = 'POS Room# ' + self.room
+      if self.table:
+        remarks += ' Table# ' + self.table
+
+      # Creating Sales Invoice 
+      create_sales_invoice(self, customer = 'Hotel Walk In Customer', company = company, check_in_id=self.check_in_id, remarks= remarks)
+      # Creating Additional Payment vouchers
+      create_payment_voucher(self,customer = 'Hotel Walk In Customer', company = company, remarks = remarks )
     elif self.order_type == 'Take Away':
       remarks = 'Take Away '
       if self.room:
@@ -57,6 +78,10 @@ def create_invoice(self):
       # Generate Invoice
       create_sales_invoice(self, customer = 'Staff Entertainment', company = company, remarks= remarks)
     
+    elif self.order_type == 'Complimentary':
+      remarks = 'Complimentary'
+      # Generate Invoice
+      create_sales_invoice(self, customer = 'Complimentary', company = company, remarks= remarks)
     
 
 
@@ -83,6 +108,11 @@ def set_status(self):
         doc.db_set('status', 'Completed')
     
     elif self.order_type == 'Staff':
+        self.status = 'Completed'
+        doc = frappe.get_doc('Hotel Food Order', self.name)
+        doc.db_set('status', 'Completed')
+    
+    elif self.order_type == 'Complimentary':
         self.status = 'Completed'
         doc = frappe.get_doc('Hotel Food Order', self.name)
         doc.db_set('status', 'Completed')

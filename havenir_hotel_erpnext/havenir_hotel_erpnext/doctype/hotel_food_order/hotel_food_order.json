@@ -23,6 +23,7 @@
   "items",
   "total_amount",
   "is_complimentary",
+  "is_paid",
   "section_break_18",
   "discount_amount",
   "net_payable",
@@ -171,11 +172,11 @@
    "fieldname": "order_type",
    "fieldtype": "Select",
    "label": "Order Type",
-   "options": "\nRoom\nTake Away\nRestaurant\nStaff",
+   "options": "\nRoom\nTake Away\nRestaurant\nStaff\nComplimentary",
    "reqd": 1
   },
   {
-   "depends_on": "eval: doc.order_type == 'Restaurant' || doc.order_type == 'Take Away';",
+   "depends_on": "eval: doc.order_type == 'Restaurant' || doc.order_type == 'Take Away' || doc.order_type == 'Staff' || doc.is_paid == 1;",
    "fieldname": "section_break_18",
    "fieldtype": "Section Break"
   },
@@ -186,12 +187,14 @@
    "options": "Currency"
   },
   {
+   "depends_on": "eval: doc.order_type != 'Staff';",
    "fieldname": "amount_paid",
    "fieldtype": "Currency",
    "label": "Amount Paid",
    "options": "Currency"
   },
   {
+   "depends_on": "eval: doc.order_type != 'Staff';",
    "fieldname": "refund",
    "fieldtype": "Currency",
    "label": "Refund",
@@ -207,6 +210,7 @@
    "depends_on": "eval: doc.order_type == 'Room'",
    "fieldname": "is_complimentary",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Is Complimentary"
   },
   {
@@ -221,10 +225,17 @@
    "fieldtype": "Float",
    "label": "Discount Percentage",
    "precision": "2"
+  },
+  {
+   "default": "0",
+   "depends_on": "eval: doc.order_type == 'Room'",
+   "fieldname": "is_paid",
+   "fieldtype": "Check",
+   "label": "Is Paid"
   }
  ],
  "is_submittable": 1,
- "modified": "2020-02-08 13:22:38.494405",
+ "modified": "2020-02-12 01:22:20.199004",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Food Order",
