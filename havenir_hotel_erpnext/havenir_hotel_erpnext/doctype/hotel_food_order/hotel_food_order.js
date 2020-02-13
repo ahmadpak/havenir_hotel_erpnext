@@ -66,7 +66,7 @@ frappe.ui.form.on("Hotel Food Order", {
   },
 
   update_bill: function(frm) {
-    frm.doc.net_payable = frm.doc.total_amount - frm.doc.discount_amount;
+    frm.doc.net_payable = frm.doc.total_amount - frm.doc.discount_amount + frm.doc.service_charges;
     frm.refresh_field("net_payable");
 
     var temp_refund = frm.doc.net_payable - frm.doc.amount_paid;
@@ -117,6 +117,10 @@ frappe.ui.form.on("Hotel Food Order", {
     );
     frm.refresh_field("discount_amount");
     frm.trigger("update_bill");
+  },
+
+  service_charges: function(frm){
+    frm.trigger('update_bill');
   },
 
   amount_paid: function(frm) {

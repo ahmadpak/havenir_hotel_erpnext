@@ -168,8 +168,8 @@ def create_payment_voucher(self, customer, company, remarks):
     payment_entry.paid_from = company.default_receivable_account
     payment_entry.party_type = 'Customer'
     payment_entry.party = customer
-    payment_entry.received_amount = self.amount_paid
-    payment_entry.paid_amount = self.amount_paid
+    payment_entry.received_amount = self.total_amount - self.discount_amount
+    payment_entry.paid_amount = self.total_amount - self.discount_amount
     payment_entry.remarks = remarks
     payment_entry.insert(ignore_permissions=True)
     payment_entry.submit()
