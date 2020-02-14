@@ -31,3 +31,11 @@ class HotelCheckIn(Document):
             room_doc = frappe.get_doc('Rooms', room.room_no)
             room_doc.db_set('check_in_id', None)
             room_doc.db_set('room_status', 'Available')
+    
+    def get_room_price(self, room):
+        room_price = frappe.get_value('Rooms', {
+            'room_number': room
+        },[
+            'price'
+        ])
+        return room_price

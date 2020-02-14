@@ -33,7 +33,6 @@ class HotelFoodOrder(Document):
         [
             'price_list_rate'
         ])
-        print(item_price)
         return item_price
 
 def create_invoice(self):
@@ -87,12 +86,17 @@ def create_invoice(self):
 
 
 def set_status(self):
-    if self.order_type == 'Room' and self.is_complimentary == 0:
+    if self.order_type == 'Room' and self.is_paid == 0:
         self.status = 'To Check Out'
         doc = frappe.get_doc('Hotel Food Order', self.name)
         doc.db_set('status', 'To Check Out')
 
-    elif self.order_type == 'Room' and self.is_complimentary == 1:
+    # elif self.order_type == 'Room' and self.is_complimentary == 1:
+    #     self.status = 'Completed'
+    #     doc = frappe.get_doc('Hotel Food Order', self.name)
+    #     doc.db_set('status', 'Completed')
+    
+    elif self.order_type == 'Room' and self.is_paid == 1:
         self.status = 'Completed'
         doc = frappe.get_doc('Hotel Food Order', self.name)
         doc.db_set('status', 'Completed')
@@ -190,7 +194,7 @@ def create_payment_voucher(self, customer, company, remarks):
     payment_entry.paid_from = company.default_receivable_account
     payment_entry.party_type = 'Customer'
     payment_entry.party = customer
-    payment_entry.received_amount = self.total_amount - self.discount_amount
+    payment_entry.received_amount = self.total_amount - self.discount_amount + self.service_charges
     payment_entry.paid_amount = self.total_amount - self.discount_amount + self.service_charges
     payment_entry.remarks = remarks
     payment_entry.insert(ignore_permissions=True)

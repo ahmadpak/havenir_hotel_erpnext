@@ -102,11 +102,14 @@ class HotelCheckOut(Document):
                 check_in_dict['price'] = room.price
 
         # Geting Hotel Food Order Details
+        total_food_discount = 0
+        total_service_charges = 0
         food_order_list = []
         room_food_order_list = frappe.get_list('Hotel Food Order', filters={
             'status': 'To Check Out',
             'room': self.room,
-            'check_in_id': self.check_in_id
+            'check_in_id': self.check_in_id,
+            'is_paid': 0
         })
         for food_order in room_food_order_list:
             food_order_dict = {}
@@ -115,6 +118,8 @@ class HotelCheckOut(Document):
             food_order_dict['date'] = food_order_doc.posting_date
             food_order_dict['order_type'] = food_order_doc.order_type
             food_order_dict['items'] = []
+            total_service_charges += food_order_doc.service_charges
+            total_food_discount += food_order_doc.discount_amount
             # Looping through items
             for item in food_order_doc.items:
                 food_item_dict = {}
@@ -170,7 +175,7 @@ class HotelCheckOut(Document):
             payment_entry_dict['posting_date'] = payment_doc.posting_date
             payment_entry_list.append(payment_entry_dict)
 
-        return [stay_days, check_in_dict, food_order_list, laundry_order_list, payment_entry_list]
+        return [stay_days, check_in_dict, food_order_list, laundry_order_list, payment_entry_list, total_food_discount, total_service_charges]
 
 
 def create_sales_invoice(self, all_checked_out):
@@ -213,6 +218,8 @@ def create_sales_invoice(self, all_checked_out):
             })
         if self.discount != 0:
             sales_invoice_doc.discount_amount += self.discount
+        if self.food_discount != 0:
+            sales_invoice_doc.discount_amount += self.food_discount
         if self.service_charges != 0:
             item_doc = frappe.get_doc('Item', 'Service Charges')
 
@@ -282,6 +289,8 @@ def create_sales_invoice(self, all_checked_out):
                     })
             if self.discount:
                 sales_invoice_doc.discount_amount = self.discount
+            if self.food_discount != 0:
+                sales_invoice_doc.discount_amount += self.food_discount
 
             if self.service_charges != 0:
                 item_doc = frappe.get_doc('Item', 'Service Charges')
@@ -375,5 +384,7 @@ def create_sales_invoice(self, all_checked_out):
 
                 if check_out_doc.discount != 0 and exclude_discount == 0:
                     sales_invoice_doc.discount_amount += check_out_doc.discount
+                if self.food_discount != 0 and exclude_discount == 0:
+                    sales_invoice_doc.discount_amount += self.food_discount
             sales_invoice_doc.insert(ignore_permissions=True)
             sales_invoice_doc.submit()

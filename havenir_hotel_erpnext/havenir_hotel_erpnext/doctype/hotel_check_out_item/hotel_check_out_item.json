@@ -104,11 +104,12 @@
    "default": "0",
    "fieldname": "is_pos",
    "fieldtype": "Check",
-   "label": "Is POS"
+   "label": "Is POS",
+   "read_only": 1
   }
  ],
  "istable": 1,
- "modified": "2020-02-10 11:35:08.946365",
+ "modified": "2020-02-14 17:09:25.062162",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check Out Item",

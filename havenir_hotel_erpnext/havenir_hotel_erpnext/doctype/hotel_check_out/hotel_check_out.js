@@ -84,7 +84,10 @@ frappe.ui.form.on("Hotel Check Out", {
       }
     }
     if (temp_total_pos_charges != 0){
-      frm.doc.total_pos_charges = temp_total_pos_charges + frm.doc.service_charges;
+      frm.doc.total_pos_charges = temp_total_pos_charges + frm.doc.service_charges - frm.doc.food_discount;
+    }
+    else {
+      frm.doc.total_pos_charges = 0;
     }
     frm.refresh_field('items');
     frm.refresh_field('total_pos_charges');
@@ -107,7 +110,7 @@ frappe.ui.form.on("Hotel Check Out", {
     }
 
     frm.doc.net_balance_amount = 0;
-    var temp_net_balance_amount = frm.doc.net_total_amount + frm.doc.service_charges - temp_total_payments - frm.doc.discount - frm.doc.amount_paid;
+    var temp_net_balance_amount = frm.doc.net_total_amount + frm.doc.service_charges - frm.doc.food_discount- temp_total_payments - frm.doc.discount - frm.doc.amount_paid;
     if (temp_net_balance_amount > 0){
       frm.doc.net_balance_amount = temp_net_balance_amount;
     }
@@ -173,7 +176,8 @@ frappe.ui.form.on("Hotel Check Out", {
                     amount: data[2][i].items[j].amount,
                     date: data[2][i].date,
                     document_type: "Hotel Food Order",
-                    document_id: data[2][i].name
+                    document_id: data[2][i].name,
+                    is_pos : 1
                   });
                 }
               }
@@ -186,10 +190,17 @@ frappe.ui.form.on("Hotel Check Out", {
                     amount: data[3][i].items[j].amount,
                     date: data[3][i].date,
                     document_type: "Hotel Laundry Order",
-                    document_id: data[3][i].name
+                    document_id: data[3][i].name,
+                    is_pos : 1
                   });
                 }
               }
+              
+              frm.doc.food_discount = data[5];
+              frm.doc.service_charges = data[6];
+              frm.refresh_field('food_discount');
+              frm.refresh_field('service_charges');
+
               let temp_total_payments = 0
               frm.doc.payments = null;
               for (var i in data[4]){
@@ -212,6 +223,14 @@ frappe.ui.form.on("Hotel Check Out", {
   },
 
   customer: function(frm){
+    if (frm.doc.customer != 'Hotel Walk In Customer'){
+      for (var i in frm.doc.items){
+        if (frm.doc.items[i].document_type != 'Hotel Check In'){
+          frm.doc.items[i].is_pos = 1;
+        }
+      }
+      frm.refresh_field('items');
+    }
     frm.trigger('total');
   },
 

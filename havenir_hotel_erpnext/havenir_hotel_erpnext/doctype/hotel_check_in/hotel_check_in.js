@@ -62,6 +62,13 @@ frappe.ui.form.on('Hotel Check In Room', {
       frm.refresh_field('rooms')
       frappe.throw(alert)
     }
+    else {
+      frm.call('get_room_price',{room: row.room_no}).then( r => {
+        row.price = r.message;
+        frm.refresh_field('rooms')
+      })
+    }
+    
     // frm.trigger('total_amount');
   },
 
