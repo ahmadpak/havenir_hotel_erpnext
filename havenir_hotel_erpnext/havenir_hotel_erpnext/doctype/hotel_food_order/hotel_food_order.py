@@ -157,6 +157,28 @@ def create_sales_invoice(self, customer, company, check_in_id = None, remarks = 
         })
     if self.discount_amount != 0:
         sales_invoice_doc.discount_amount += self.discount_amount
+    if self.service_charges != 0:
+        item_doc = frappe.get_doc('Item', 'Service Charges')
+
+        # Getting Item default Income Account
+        default_income_account = None
+        for item_default in item_doc.item_defaults:
+            if item_default.company == self.company:
+                if item_default.income_account:
+                    default_income_account = item_default.income_account
+                else:
+                    default_income_account = company.default_income_account
+
+        sales_invoice_doc.append('items', {
+            'item_code': item_doc.item_code,
+            'item_name': item_doc.item_name,
+            'description': item_doc.description,
+            'qty': 1,
+            'uom': item_doc.stock_uom,
+            'rate': self.service_charges,
+            'amount': self.service_charges,
+            'income_account': default_income_account
+        })
     sales_invoice_doc.insert(ignore_permissions=True)
     sales_invoice_doc.submit()
 
@@ -169,7 +191,7 @@ def create_payment_voucher(self, customer, company, remarks):
     payment_entry.party_type = 'Customer'
     payment_entry.party = customer
     payment_entry.received_amount = self.total_amount - self.discount_amount
-    payment_entry.paid_amount = self.total_amount - self.discount_amount
+    payment_entry.paid_amount = self.total_amount - self.discount_amount + self.service_charges
     payment_entry.remarks = remarks
     payment_entry.insert(ignore_permissions=True)
     payment_entry.submit()

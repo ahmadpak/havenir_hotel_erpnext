@@ -83,7 +83,9 @@ frappe.ui.form.on("Hotel Check Out", {
         frm.doc.items[i].is_pos = 0;
       }
     }
-    frm.doc.total_pos_charges = temp_total_pos_charges;
+    if (temp_total_pos_charges != 0){
+      frm.doc.total_pos_charges = temp_total_pos_charges + frm.doc.service_charges;
+    }
     frm.refresh_field('items');
     frm.refresh_field('total_pos_charges');
 
@@ -105,7 +107,7 @@ frappe.ui.form.on("Hotel Check Out", {
     }
 
     frm.doc.net_balance_amount = 0;
-    var temp_net_balance_amount = frm.doc.net_total_amount - temp_total_payments - frm.doc.discount - frm.doc.amount_paid;
+    var temp_net_balance_amount = frm.doc.net_total_amount + frm.doc.service_charges - temp_total_payments - frm.doc.discount - frm.doc.amount_paid;
     if (temp_net_balance_amount > 0){
       frm.doc.net_balance_amount = temp_net_balance_amount;
     }
@@ -241,6 +243,10 @@ frappe.ui.form.on("Hotel Check Out", {
         }
       }
     });
+  },
+
+  service_charges: function (frm){
+    frm.trigger("total");
   },
 
   discount: function(frm){

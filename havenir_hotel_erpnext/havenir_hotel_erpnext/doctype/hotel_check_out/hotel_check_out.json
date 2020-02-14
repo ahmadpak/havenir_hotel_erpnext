@@ -32,6 +32,7 @@
   "stay_charges",
   "column_break_21",
   "food",
+  "service_charges",
   "column_break_23",
   "laundry",
   "section_break_15",
@@ -154,7 +155,8 @@
   },
   {
    "fieldname": "section_break_15",
-   "fieldtype": "Section Break"
+   "fieldtype": "Section Break",
+   "hidden": 1
   },
   {
    "fieldname": "taxes_and_charges",
@@ -359,10 +361,17 @@
    "fieldname": "is_tax_invoice",
    "fieldtype": "Check",
    "label": "Is Tax Invoice"
+  },
+  {
+   "depends_on": "eval: doc.food",
+   "fieldname": "service_charges",
+   "fieldtype": "Currency",
+   "label": "Service Charges",
+   "options": "Currency"
   }
  ],
  "is_submittable": 1,
- "modified": "2020-02-06 11:57:03.441596",
+ "modified": "2020-02-14 12:42:34.470424",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check Out",

@@ -213,6 +213,29 @@ def create_sales_invoice(self, all_checked_out):
             })
         if self.discount != 0:
             sales_invoice_doc.discount_amount += self.discount
+        if self.service_charges != 0:
+            item_doc = frappe.get_doc('Item', 'Service Charges')
+
+            # Getting Item default Income Account
+            default_income_account = None
+            for item_default in item_doc.item_defaults:
+                if item_default.company == self.company:
+                    if item_default.income_account:
+                        default_income_account = item_default.income_account
+                    else:
+                        default_income_account = company.default_income_account
+
+            # Adding Items to Sales Invoice
+            sales_invoice_doc.append('items',{
+                'item_code': item_doc.item_code,
+                'item_name': item_doc.item_name,
+                'description': item_doc.description,
+                'qty': 1,
+                'uom': item_doc.stock_uom,
+                'rate': self.service_charges,
+                'amount': self.service_charges,
+                'income_account': default_income_account
+            })
         sales_invoice_doc.insert(ignore_permissions=True)
         sales_invoice_doc.submit()
     if all_checked_out == 1 or self.customer != 'Hotel Walk In Customer': 
@@ -259,6 +282,31 @@ def create_sales_invoice(self, all_checked_out):
                     })
             if self.discount:
                 sales_invoice_doc.discount_amount = self.discount
+
+            if self.service_charges != 0:
+                item_doc = frappe.get_doc('Item', 'Service Charges')
+
+                # Getting Item default Income Account
+                default_income_account = None
+                for item_default in item_doc.item_defaults:
+                    if item_default.company == self.company:
+                        if item_default.income_account:
+                            default_income_account = item_default.income_account
+                        else:
+                            default_income_account = company.default_income_account
+
+                # Adding Items to Sales Invoice
+                sales_invoice_doc.append('items',{
+                    'item_code': item_doc.item_code,
+                    'item_name': item_doc.item_name,
+                    'description': item_doc.description,
+                    'qty': 1,
+                    'uom': item_doc.stock_uom,
+                    'rate': self.service_charges,
+                    'amount': self.service_charges,
+                    'income_account': default_income_account
+                })
+
             sales_invoice_doc.insert(ignore_permissions=True)
             sales_invoice_doc.submit()
 
