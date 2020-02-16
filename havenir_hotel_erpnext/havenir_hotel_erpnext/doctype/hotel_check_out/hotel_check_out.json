@@ -36,6 +36,8 @@
   "service_charges",
   "column_break_23",
   "laundry",
+  "section_break_32",
+  "total_bill",
   "section_break_15",
   "taxes_and_charges",
   "total_taxes_and_charges",
@@ -379,10 +381,21 @@
    "label": "Food Discount",
    "options": "Currency",
    "read_only": 1
+  },
+  {
+   "fieldname": "section_break_32",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "total_bill",
+   "fieldtype": "Currency",
+   "label": "Total Bill",
+   "options": "Currency",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
- "modified": "2020-02-14 16:30:06.846336",
+ "modified": "2020-02-16 18:08:42.687231",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check Out",

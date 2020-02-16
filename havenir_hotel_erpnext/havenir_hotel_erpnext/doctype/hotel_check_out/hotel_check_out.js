@@ -14,7 +14,7 @@ frappe.ui.form.on("Hotel Check Out", {
   },
 
   validate: function(frm){
-    if ((frm.doc.net_total_amount - frm.doc.total_payments - frm.doc.amount_paid - frm.doc.discount) > 0 && frm.doc.customer == 'Hotel Walk In Customer'){
+    if ((frm.doc.net_total_amount - frm.doc.total_payments - frm.doc.amount_paid - frm.doc.discount - frm.food_discount) > 0 && frm.doc.customer == 'Hotel Walk In Customer'){
       frappe.throw('Amount paid must be equal or greater than net balance amount.')
     }
     // checking if any item is pos
@@ -32,7 +32,7 @@ frappe.ui.form.on("Hotel Check Out", {
       for (var i in frm.doc.payments){
         temp_msc_total_payments += frm.doc.payments[i].amount;
       }
-      if ((temp_msc_total_payments + frm.doc.discount + frm.doc.amount_paid) < temp_msc_exp_total){
+      if (( frm.food_discount + temp_msc_total_payments + frm.doc.discount + frm.doc.amount_paid) < temp_msc_exp_total){
         frappe.throw('Please pay POS Charges.')
       }
     }
@@ -62,6 +62,12 @@ frappe.ui.form.on("Hotel Check Out", {
     frm.refresh_field("food");
     frm.refresh_field("laundry");
     frm.refresh_field("total_amount");
+
+    // Total Bill
+    let temp_total_bill = 0
+    temp_total_bill = frm.doc.stay_charges + frm.doc.food - frm.doc.food_discount + frm.doc.service_charges + frm.doc.laundry
+    frm.doc.total_bill = temp_total_bill;
+    frm.refresh_field('total_bill');
 
     for (var i in frm.doc.taxes_and_charges) {
       if (frm.doc.taxes_and_charges[i].type == "On Total") {
