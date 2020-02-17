@@ -155,10 +155,22 @@ frappe.ui.form.on("Hotel Food Order Item", {
   },
   rate: function(frm, cdt, cdn) {
     let row = frappe.get_doc(cdt, cdn);
-    if (row.qty != undefined) {
-      row.amount = row.qty * row.rate;
-      frm.refresh_field("items");
-      frm.trigger("total_amount");
+    if (row.qty != undefined && row.item != undefined) {
+      if (row.item == 'Breakfast' || row.item == 'Lunch' || row.item == 'Dinner'){
+        row.amount = row.qty * row.rate;
+        frm.refresh_field("items");
+        frm.trigger("total_amount");
+      }
+      else {
+        frm.call("get_price", { item: row.item }).then(r => {
+          if (r.message) {
+            frappe.model.set_value(cdt, cdn, 'rate', r.message);
+            row.amount = row.qty * row.rate;
+            frm.refresh_field("items");
+            frm.trigger("total_amount");
+          }
+        })
+      }
     }
   },
 
