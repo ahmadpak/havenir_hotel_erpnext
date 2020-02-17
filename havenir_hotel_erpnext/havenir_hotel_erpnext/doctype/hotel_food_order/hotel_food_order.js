@@ -156,7 +156,7 @@ frappe.ui.form.on("Hotel Food Order Item", {
   rate: function(frm, cdt, cdn) {
     let row = frappe.get_doc(cdt, cdn);
     if (row.qty != undefined && row.item != undefined) {
-      if (row.item == 'Breakfast' || row.item == 'Lunch' || row.item == 'Dinner'){
+      if (row.item == 'BREAKFAST COMPLIMENTARY' || row.item == 'LUNCH COMPLIMENTARY' || row.item == 'DINNER COMPLIMENTARY'){
         row.amount = row.qty * row.rate;
         frm.refresh_field("items");
         frm.trigger("total_amount");

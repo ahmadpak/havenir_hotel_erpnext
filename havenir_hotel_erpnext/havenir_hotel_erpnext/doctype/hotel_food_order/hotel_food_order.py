@@ -162,7 +162,7 @@ def create_sales_invoice(self, customer, company, check_in_id = None, remarks = 
     if self.discount_amount != 0:
         sales_invoice_doc.discount_amount += self.discount_amount
     if self.service_charges != 0:
-        item_doc = frappe.get_doc('Item', 'Service Charges')
+        item_doc = frappe.get_doc('Item', 'SERVICE CHARGES')
 
         # Getting Item default Income Account
         default_income_account = None
