@@ -57,6 +57,7 @@ class HotelCheckOut(Document):
             payment_doc.guest_id = self.guest_id
             payment_doc.check_in_id = self.check_in_id
             payment_doc.guest_name = self.guest_name
+            payment_doc.contact_no = self.contact_no
             payment_doc.save()
             payment_doc.submit()
         
@@ -327,6 +328,7 @@ def create_sales_invoice(self, all_checked_out):
                 payment_doc.guest_id = self.guest_id
                 payment_doc.check_in_id = self.check_in_id
                 payment_doc.guest_name = self.guest_name
+                payment_doc.contact_no = self.contact_no
                 payment_doc.save()
                 payment_doc.submit()
 

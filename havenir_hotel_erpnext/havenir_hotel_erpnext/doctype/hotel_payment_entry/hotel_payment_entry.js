@@ -33,9 +33,11 @@ frappe.ui.form.on('Hotel Payment Entry', {
 				frm.doc.guest_id = data[0];
 				frm.doc.guest_name = data[1];
 				frm.doc.check_in_id = data[2];
+				frm.doc.contact_no = data[3];
 				frm.refresh_field('guest_id');
 				frm.refresh_field('guest_name');
 				frm.refresh_field('check_in_id');
+				frm.refresh_field('contact_no');
 				frm.trigger('entry_type');
 			})
 		}
