@@ -99,7 +99,7 @@ def send_payment_sms(self):
   if sms_settings.sms_gateway_url:
     msg = 'Dear '
     msg += self.guest_name
-    msg += ', Thank you for your payment. Amount received PKR '
+    msg += ',\nThank you for your payment. Amount received PKR '
     msg += str(self.amount_paid)
     msg += ' on '
     msg += str(self.posting_date)

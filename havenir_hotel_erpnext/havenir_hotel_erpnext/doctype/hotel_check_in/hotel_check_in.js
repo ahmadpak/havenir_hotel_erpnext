@@ -47,28 +47,29 @@ frappe.ui.form.on("Hotel Check In", {
 
 frappe.ui.form.on('Hotel Check In Room', {
   room_no: function(frm, cdt, cdn) {
-    let count = 0;
-    let row = frappe.get_doc(cdt, cdn)
-    for(var i in frm.doc.rooms){
-      if (frm.doc.rooms[i].room_no == row.room_no){
-        count += 1;
+    if (frm.doc.room_no){
+      let count = 0;
+      let row = frappe.get_doc(cdt, cdn)
+      for(var i in frm.doc.rooms){
+        if (frm.doc.rooms[i].room_no == row.room_no){
+          count += 1;
+        }
+      }
+      if (count>1){
+        let alert = 'Room ' + row.room_no + ' already selected';
+        row.room_no = undefined;
+        row.room_type = undefined;
+        row.price = undefined;
+        frm.refresh_field('rooms')
+        frappe.throw(alert)
+      }
+      else {
+        frm.call('get_room_price',{room: row.room_no}).then( r => {
+          row.price = r.message;
+          frm.refresh_field('rooms')
+        })
       }
     }
-    if (count>1){
-      let alert = 'Room ' + row.room_no + ' already selected';
-      row.room_no = undefined;
-      row.room_type = undefined;
-      row.price = undefined;
-      frm.refresh_field('rooms')
-      frappe.throw(alert)
-    }
-    else {
-      frm.call('get_room_price',{room: row.room_no}).then( r => {
-        row.price = r.message;
-        frm.refresh_field('rooms')
-      })
-    }
-    
     // frm.trigger('total_amount');
   },
 
