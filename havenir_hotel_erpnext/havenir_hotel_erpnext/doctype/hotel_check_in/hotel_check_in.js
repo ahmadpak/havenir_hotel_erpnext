@@ -47,9 +47,9 @@ frappe.ui.form.on("Hotel Check In", {
 
 frappe.ui.form.on('Hotel Check In Room', {
   room_no: function(frm, cdt, cdn) {
-    if (frm.doc.room_no){
-      let count = 0;
-      let row = frappe.get_doc(cdt, cdn)
+    let count = 0;
+    let row = frappe.get_doc(cdt, cdn)
+    if (row.room_no){
       for(var i in frm.doc.rooms){
         if (frm.doc.rooms[i].room_no == row.room_no){
           count += 1;
