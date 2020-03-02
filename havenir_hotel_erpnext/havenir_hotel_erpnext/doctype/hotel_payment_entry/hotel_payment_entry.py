@@ -10,7 +10,7 @@ from frappe.core.doctype.sms_settings.sms_settings import send_sms
 class HotelPaymentEntry(Document):
   def on_submit(self):
     create_payment_entry(self)
-    send_payment_sms(self)
+    # send_payment_sms(self)
   
   def get_room_details(self):
     check_in_id = frappe.get_value('Rooms',self.room,'check_in_id')

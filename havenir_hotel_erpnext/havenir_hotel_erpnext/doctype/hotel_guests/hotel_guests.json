@@ -36,8 +36,7 @@
    "allow_in_quick_entry": 1,
    "fieldname": "date_of_birth",
    "fieldtype": "Date",
-   "label": "Date of Birth",
-   "reqd": 1
+   "label": "Date of Birth"
   },
   {
    "fieldname": "prefrences",
@@ -50,8 +49,7 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Guest Name",
-   "reqd": 1
+   "label": "Guest Name"
   },
   {
    "fieldname": "column_break_3",
@@ -78,7 +76,6 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Contact No",
-   "reqd": 1,
    "unique": 1
   },
   {
@@ -118,11 +115,10 @@
    "fieldtype": "Attach Image",
    "in_preview": 1,
    "label": "Guest Photo Attachment",
-   "options": "image",
-   "reqd": 1
+   "options": "image"
   }
  ],
- "modified": "2020-02-02 20:54:44.057142",
+ "modified": "2020-03-02 13:39:52.929872",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Guests",
