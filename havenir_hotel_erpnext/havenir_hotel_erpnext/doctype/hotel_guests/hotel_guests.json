@@ -11,11 +11,13 @@
   "column_break_3",
   "passport_no",
   "date_of_birth",
-  "contact_details_section",
+  "details_section",
+  "id_card_front_attachment",
+  "id_card_front_photo",
   "contact_no",
-  "guest_photo_attachment",
-  "guest_photo",
   "column_break_8",
+  "id_card_back_attachment",
+  "id_card_back_photo",
   "current_address",
   "permanent_address",
   "section_break_11",
@@ -24,19 +26,22 @@
  "fields": [
   {
    "allow_in_quick_entry": 1,
+   "description": "Format: XXXXX-XXXXXXX-X\nExample: 12345-1234567-1",
    "fieldname": "cnic",
    "fieldtype": "Data",
    "in_global_search": 1,
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "CNIC",
+   "reqd": 1,
    "unique": 1
   },
   {
    "allow_in_quick_entry": 1,
    "fieldname": "date_of_birth",
    "fieldtype": "Date",
-   "label": "Date of Birth"
+   "label": "Date of Birth",
+   "reqd": 1
   },
   {
    "fieldname": "prefrences",
@@ -49,7 +54,8 @@
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
-   "label": "Guest Name"
+   "label": "Guest Name",
+   "reqd": 1
   },
   {
    "fieldname": "column_break_3",
@@ -65,17 +71,14 @@
    "unique": 1
   },
   {
-   "fieldname": "contact_details_section",
-   "fieldtype": "Section Break",
-   "label": "Contact Details"
-  },
-  {
    "allow_in_quick_entry": 1,
+   "description": "Format: 92XXXXXXXXXX\nExample: 923217654321",
    "fieldname": "contact_no",
    "fieldtype": "Data",
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Contact No",
+   "reqd": 1,
    "unique": 1
   },
   {
@@ -85,12 +88,14 @@
   {
    "fieldname": "current_address",
    "fieldtype": "Small Text",
-   "label": "Current Address"
+   "label": "Current Address",
+   "reqd": 1
   },
   {
    "fieldname": "permanent_address",
    "fieldtype": "Small Text",
-   "label": "Permanent Address"
+   "label": "Permanent Address",
+   "reqd": 1
   },
   {
    "fieldname": "section_break_11",
@@ -104,21 +109,40 @@
    "options": "GUEST-.YYYY.-.#####"
   },
   {
-   "fieldname": "guest_photo",
+   "fieldname": "id_card_front_photo",
    "fieldtype": "Image",
-   "label": "Guest Photo",
-   "options": "guest_photo_attachment"
+   "label": "ID Card Front Photo",
+   "options": "id_card_front_attachment"
   },
   {
    "allow_in_quick_entry": 1,
-   "fieldname": "guest_photo_attachment",
+   "fieldname": "id_card_front_attachment",
    "fieldtype": "Attach Image",
    "in_preview": 1,
-   "label": "Guest Photo Attachment",
-   "options": "image"
+   "label": "ID Card Front",
+   "options": "image",
+   "reqd": 1
+  },
+  {
+   "fieldname": "id_card_back_attachment",
+   "fieldtype": "Attach Image",
+   "label": "ID Card Back",
+   "options": "image",
+   "reqd": 1
+  },
+  {
+   "fieldname": "id_card_back_photo",
+   "fieldtype": "Image",
+   "label": "ID Card Back Photo",
+   "options": "id_card_back_attachment"
+  },
+  {
+   "fieldname": "details_section",
+   "fieldtype": "Section Break",
+   "label": "Details"
   }
  ],
- "modified": "2020-03-02 13:39:52.929872",
+ "modified": "2020-03-21 11:01:28.999817",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Guests",
