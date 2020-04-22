@@ -78,7 +78,6 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Contact No",
-   "reqd": 1,
    "unique": 1
   },
   {
@@ -142,8 +141,8 @@
    "label": "Details"
   }
  ],
- "modified": "2020-03-21 11:01:28.999817",
- "modified_by": "Administrator",
+ "modified": "2020-04-23 02:26:31.676562",
+ "modified_by": "ahmad@havenir.com",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Guests",
  "name_case": "Title Case",
