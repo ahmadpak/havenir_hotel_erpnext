@@ -55,7 +55,7 @@ class HotelPaymentEntry(Document):
       payment_entry.submit()
     
     else:
-      total_advance = self.get_advance_payments
+      total_advance = self.get_advance_payments()
       self.advance = total_advance
       
       if self.amount_paid <= total_advance:
