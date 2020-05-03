@@ -13,6 +13,12 @@ frappe.ui.form.on('Hotel Payment Entry', {
     });
 	},
 
+	refresh: function (frm) { 
+		if (frm.doc.docstatus == 0){
+			frm.trigger("entry_type")	
+		}
+	},
+
 	entry_type: function(frm){
 		if (frm.doc.room){
 			frm
