@@ -40,8 +40,7 @@
    "allow_in_quick_entry": 1,
    "fieldname": "date_of_birth",
    "fieldtype": "Date",
-   "label": "Date of Birth",
-   "reqd": 1
+   "label": "Date of Birth"
   },
   {
    "fieldname": "prefrences",
@@ -78,6 +77,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Contact No",
+   "reqd": 1,
    "unique": 1
   },
   {
@@ -87,14 +87,12 @@
   {
    "fieldname": "current_address",
    "fieldtype": "Small Text",
-   "label": "Current Address",
-   "reqd": 1
+   "label": "Current Address"
   },
   {
    "fieldname": "permanent_address",
    "fieldtype": "Small Text",
-   "label": "Permanent Address",
-   "reqd": 1
+   "label": "Permanent Address"
   },
   {
    "fieldname": "section_break_11",
@@ -119,15 +117,13 @@
    "fieldtype": "Attach Image",
    "in_preview": 1,
    "label": "ID Card Front",
-   "options": "image",
-   "reqd": 1
+   "options": "image"
   },
   {
    "fieldname": "id_card_back_attachment",
    "fieldtype": "Attach Image",
    "label": "ID Card Back",
-   "options": "image",
-   "reqd": 1
+   "options": "image"
   },
   {
    "fieldname": "id_card_back_photo",
@@ -141,8 +137,8 @@
    "label": "Details"
   }
  ],
- "modified": "2020-04-23 02:26:31.676562",
- "modified_by": "ahmad@havenir.com",
+ "modified": "2020-07-29 12:02:04.025076",
+ "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Guests",
  "name_case": "Title Case",
